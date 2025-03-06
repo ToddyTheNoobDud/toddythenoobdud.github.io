@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenium Music Bot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+
+    <header>
+        <img src="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=4096&ignore=true" alt="Kenium Music Bot Avatar" class="avatar">
+        <h1>Kenium Music Bot</h1>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#commands"><i class="fas fa-list"></i> Commands</a></li>
+                <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+                <li><a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209" id="invite-button"><i class="fas fa-user-plus"></i> Invite</a></li>
+                <li><a href="https://github.com/ToddyTheNoobDud/Kenium-Music" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+                <li><a href="https://discord.com/invite/K4CVv84VBC" target="_blank"><i class="fab fa-discord"></i> Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Key Features Section -->
+        <section class="features-section" id="features">
+            <h2 class="section-title">Key Features</h2>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 class="feature-title">Optimized Music System</h3>
+                    <div class="feature-description">
+                        <div class="key-feature">
+                            <div class="key-feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="key-feature-content">
+                                <h3>Fast Performance</h3>
+                                <p>Fast queue loading, smooth playback, and low resource usage.</p>
+                            </div>
+                        </div>
+                        <div class="key-feature">
+                            <div class="key-feature-icon">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div class="key-feature-content">
+                                <h3>Full Support</h3>
+                                <p>YouTube, Spotify, SoundCloud, Vimeo, and file uploads.</p>
+                            </div>
+                        </div>
+                        <div class="key-feature">
+                            <div class="key-feature-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="key-feature-content">
+                                <h3>Smart Suggestions</h3>
+                                <p>Autocomplete for play commands with intelligent suggestions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Search & Queue Manager</h3>
+                    <div class="feature-description">
+                        <div class="key-feature">
+                            <div class="key-feature-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="key-feature-content">
+                                <h3>Advanced Search</h3>
+                                <p>Search across YouTube, Spotify, and SoundCloud with ease.</p>
+                            </div>
+                        </div>
+                        <div class="key-feature">
+                            <div class="key-feature-icon">
+                                <i class="fas fa-list-ul"></i>
+                            </div>
+                            <div class="key-feature-content">
+                                <h3>Queue Management</h3>
+                                <p>Easily clear, show, or remove tracks with autocomplete support.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <h3 class="feature-title">Playlist Import/Export</h3>
+                    <div class="feature-description">
+                        <p>Save & share playlists in .txt or .pdf, with automatic naming based on content. Never lose your favorite music collections again.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-align-left"></i>
+                    </div>
+                    <h3 class="feature-title">Lyrics Support</h3>
+                    <div class="feature-description">
+                        <p>Powered by Genius and LyricFind with full support for YouTube songs. Lyrics are delivered directly through Lavalink integration.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="feature-title">24/7 Uptime</h3>
+                    <div class="feature-description">
+                        <p>Hosted by Diva Hosting for maximum performance and reliability. Enjoy uninterrupted music playback whenever you need it.</p>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">Fully Open Source</h3>
+                    <div class="feature-description">
+                        <p>All of the code is available on GitHub. Contribute, customize, or simply explore how everything works.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Commands Section -->
+        <section class="commands-section" id="commands">
+            <h2 class="section-title">Commands</h2>
+            <div class="commands-grid" id="commands-grid">
+                <!-- Commands will be dynamically added here -->
+            </div>
+        </section>
+
+        <div class="modal-overlay" id="command-modal">
+            <div class="modal-content">
+                <button class="modal-close" id="modal-close">&times;</button>
+                <div class="modal-title">
+                    <i class="fas fa-terminal"></i>
+                    <h2 id="modal-command-name"></h2>
+                </div>
+                <div class="modal-description" id="modal-command-description"></div>
+                <div class="modal-usage" id="modal-command-usage"></div>
+                <div class="modal-footer">
+                    <button class="btn" id="modal-close-btn">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AquaLink Section -->
+        <section class="features-section">
+            <h2 class="section-title">Powered by AquaLink 🛠️</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="feature-title">Low-Resource Optimized</h3>
+                    <div class="feature-description">
+                        <p>Minimal RAM usage (~0.5–1 MB/player) with all features enabled. Perfect for servers of any size.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="feature-title">Fully Documented</h3>
+                    <div class="feature-description">
+                        <p>Comprehensive documentation for easy development & customization. Learn how everything works and adapt it to your needs.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="feature-title">Self-Developed</h3>
+                    <div class="feature-description">
+                        <p>100% self-developed and continually optimized for performance. Built solo by mushroom0162 with passion and attention to detail.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-container">
+                <h2>Ready to Enhance Your Discord Server?</h2>
+                <p>Start playing music with Kenium Music Bot today. Open for suggestions and constantly improving!</p>
+                <a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209&scope=bot&permissions=0" class="btn">Add to Discord</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Kenium Music Bot. All rights reserved.</p>
+        <div class="powered-by">
+            <span>Built Solo by mushroom0162</span>
+        </div>
+    </footer>
+
+    <script src="./js/scripts.js"></script>
+</body>
+</html>
