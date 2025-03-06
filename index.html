@@ -3,17 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kenium Music Bot</title>
-        <meta name="description" content="An open source music bot that works with YouTube, SoundCloud, and more. Enhance your Discord server with Kenium Music Bot.">
-        <meta name="keywords" content="music bot, discord bot, open source, youtube, soundcloud, kenium">
+        <title>Kenium Music Bot | Discord Music Solution</title>
+        <meta name="description" content="An open source music bot that works with YouTube, Spotify, SoundCloud, and more. Enhance your Discord server with Kenium Music Bot.">
+        <meta name="keywords" content="music bot, discord bot, open source, youtube, spotify, soundcloud, kenium, discord music, lyrics">
         <meta name="author" content="mushroom0162">
         <meta name="robots" content="index, follow">
         <meta property="og:title" content="Kenium Music Bot">
-        <meta property="og:description" content="An open source music bot, Works with youtube, SoundCloud, etc.">
+        <meta property="og:description" content="An open source music bot, Works with YouTube, Spotify, SoundCloud, and more platforms.">
         <meta property="og:image" content="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=4096&ignore=true">
         <meta property="og:url" content="https://toddythenoobdud.github.io/">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary_large_image">
         <meta name="theme-color" content="#000000">
         <link rel="canonical" href="https://toddythenoobdud.github.io/" />
+        <link rel="icon" href="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=256" type="image/png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,22 +25,42 @@
     </head>    
 <body>
     <div class="floating-particles" id="particles"></div>
+    
     <header>
-        <img src="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=4096&ignore=true" alt="Kenium Music Bot Avatar" class="avatar">
-        <h1>Kenium Music Bot</h1>
-        <nav>
-            <ul id="nav-menu">
-                <li><a href="#commands"><i class="fas fa-list"></i> Commands</a></li>
-                <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
-                <li><a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209" id="invite-button"><i class="fas fa-user-plus"></i> Invite</a></li>
-                <li><a href="https://github.com/ToddyTheNoobDud/Kenium-Music" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
-                <li><a href="https://discord.com/invite/K4CVv84VBC" target="_blank"><i class="fab fa-discord"></i> Support</a></li>
-                <li><a href="https://top.gg/bot/1202232935311495209/vote" target="_blank"><i class="fas fa-thumbs-up"></i> Vote</a></li>
-            </ul>
-        </nav>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=4096&ignore=true" alt="Kenium Music Bot Avatar" class="avatar">
+                <h1>Kenium Music Bot</h1>
+            </div>
+            <nav aria-label="Main navigation">
+                <ul id="nav-menu">
+                    <li><a href="#features" aria-label="Features"><i class="fas fa-star"></i> Features</a></li>
+                    <li><a href="#commands" aria-label="Commands"><i class="fas fa-list"></i> Commands</a></li>
+                    <li><a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209&scope=bot&permissions=0" id="invite-button" aria-label="Invite bot to Discord"><i class="fas fa-user-plus"></i> Invite</a></li>
+                    <li><a href="https://github.com/ToddyTheNoobDud/Kenium-Music" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository"><i class="fab fa-github"></i> GitHub</a></li>
+                    <li><a href="https://discord.com/invite/K4CVv84VBC" target="_blank" rel="noopener noreferrer" aria-label="Support server"><i class="fab fa-discord"></i> Support</a></li>
+                    <li><a href="https://top.gg/bot/1202232935311495209/vote" target="_blank" rel="noopener noreferrer" aria-label="Vote for bot"><i class="fas fa-thumbs-up"></i> Vote</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="hero-content">
+                <h2>Elite Discord Music Experience</h2>
+                <p>Powerful music playback with support for YouTube, Spotify, SoundCloud, and more</p>
+                <div class="hero-buttons">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209&scope=bot&permissions=0" class="btn btn-primary">Add to Discord</a>
+                    <a href="#features" class="btn btn-secondary">Explore Features</a>
+                </div>
+            </div>
+        </section>
+        
         <!-- Key Features Section -->
         <section class="features-section" id="features">
             <h2 class="section-title">Key Features</h2>
@@ -55,7 +78,7 @@
                                 <i class="fas fa-bolt"></i>
                             </div>
                             <div class="key-feature-content">
-                                <h3>Fast Performance</h3>
+                                <h4>Fast Performance</h4>
                                 <p>Fast queue loading, smooth playback, and low resource usage.</p>
                             </div>
                         </div>
@@ -64,7 +87,7 @@
                                 <i class="fas fa-headphones"></i>
                             </div>
                             <div class="key-feature-content">
-                                <h3>Full Support</h3>
+                                <h4>Full Platform Support</h4>
                                 <p>YouTube, Spotify, SoundCloud, Vimeo, and file uploads.</p>
                             </div>
                         </div>
@@ -73,7 +96,7 @@
                                 <i class="fas fa-magic"></i>
                             </div>
                             <div class="key-feature-content">
-                                <h3>Smart Suggestions</h3>
+                                <h4>Smart Suggestions</h4>
                                 <p>Autocomplete for play commands with intelligent suggestions.</p>
                             </div>
                         </div>
@@ -92,7 +115,7 @@
                                 <i class="fas fa-globe"></i>
                             </div>
                             <div class="key-feature-content">
-                                <h3>Advanced Search</h3>
+                                <h4>Advanced Search</h4>
                                 <p>Search across YouTube, Spotify, and SoundCloud with ease.</p>
                             </div>
                         </div>
@@ -101,7 +124,7 @@
                                 <i class="fas fa-list-ul"></i>
                             </div>
                             <div class="key-feature-content">
-                                <h3>Queue Management</h3>
+                                <h4>Queue Management</h4>
                                 <p>Easily clear, show, or remove tracks with autocomplete support.</p>
                             </div>
                         </div>
@@ -157,20 +180,32 @@
         <!-- Commands Section -->
         <section class="commands-section" id="commands">
             <h2 class="section-title">Commands</h2>
+            <div class="commands-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="music">Music</button>
+                <button class="filter-btn" data-filter="playlist">Playlist</button>
+                <button class="filter-btn" data-filter="utility">Utility</button>
+            </div>
+            <div class="commands-search">
+                <input type="text" id="command-search" placeholder="Search commands..." aria-label="Search commands">
+                <i class="fas fa-search"></i>
+            </div>
             <div class="commands-grid" id="commands-grid">
-                <!-- Commands will be dynamically added here -->
+                <!-- Commands will be dynamically added here by JavaScript -->
             </div>
         </section>
 
-        <div class="modal-overlay" id="command-modal">
-            <div class="modal-content">
-                <button class="modal-close" id="modal-close">&times;</button>
+        <!-- Command Modal -->
+        <div class="modal-overlay" id="command-modal" aria-hidden="true">
+            <div class="modal-content" role="dialog" aria-labelledby="modal-command-name">
+                <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
                 <div class="modal-title">
                     <i class="fas fa-terminal"></i>
                     <h2 id="modal-command-name"></h2>
                 </div>
                 <div class="modal-description" id="modal-command-description"></div>
                 <div class="modal-usage" id="modal-command-usage"></div>
+                <div class="modal-examples" id="modal-command-examples"></div>
                 <div class="modal-footer">
                     <button class="btn" id="modal-close-btn">Close</button>
                 </div>
@@ -178,7 +213,7 @@
         </div>
         
         <!-- AquaLink Section -->
-        <section class="features-section">
+        <section class="features-section" id="technology">
             <h2 class="section-title">Powered by AquaLink 🛠️</h2>
             <div class="features-grid">
                 <div class="feature-card">
@@ -212,22 +247,97 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Testimonials Section -->
+        <section class="testimonials-section" id="testimonials">
+            <h2 class="section-title">What Users Say</h2>
+            <div class="testimonials-slider" id="testimonials-slider">
+                <!-- Testimonials will be dynamically added here by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <!-- FAQ items will be dynamically added here by JavaScript -->
+            </div>
+        </section>
+        
         <!-- CTA Section -->
         <section class="cta-section">
             <div class="cta-container">
                 <h2>Ready to Enhance Your Discord Server?</h2>
                 <p>Start playing music with Kenium Music Bot today. Open for suggestions and constantly improving!</p>
-                <a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209&scope=bot&permissions=0" class="btn">Add to Discord</a>
+                <div class="cta-buttons">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1202232935311495209&scope=bot&permissions=0" class="btn btn-primary">Add to Discord</a>
+                    <a href="https://discord.com/invite/K4CVv84VBC" class="btn btn-secondary">Join Support Server</a>
+                </div>
+                <div class="cta-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-server"></i>
+                        <span id="server-count">50</span>
+                        <p>Servers</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span id="user-count">100,000+</span>
+                        <p>Users</p>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-music"></i>
+                        <span id="songs-count">1,000+</span>
+                        <p>Songs Played</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Kenium Music Bot. All rights reserved.</p>
-        <div class="powered-by">
-            <span>Built Solo by mushroom0162</span>
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-logo">
+                    <img src="https://cdn.discordapp.com/avatars/1202232935311495209/54877030e6b8aff9e16f9465ba5777e6.png?size=256" alt="Kenium Music Bot" class="footer-avatar">
+                    <h3>Kenium Music Bot</h3>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#commands">Commands</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/ToddyTheNoobDud/Kenium-Music" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                        <li><a href="https://discord.com/invite/K4CVv84VBC" target="_blank" rel="noopener noreferrer">Support Server</a></li>
+                        <li><a href="https://top.gg/bot/1202232935311495209" target="_blank" rel="noopener noreferrer">Top.gg</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="https://github.com/ToddyTheNoobDud" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://discord.com/invite/K4CVv84VBC" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Kenium Music Bot. All rights reserved.</p>
+                <div class="powered-by">
+                    <span>Built Solo by mushroom0162</span>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <a href="#" class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 
     <script src="./js/scripts.js"></script>
 </body>
