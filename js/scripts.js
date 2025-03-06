@@ -37,6 +37,8 @@ commands.forEach(command => {
     commandsGrid.appendChild(commandCard);
 });
 
+
+
 // Modal Handling
 const modal = document.getElementById("command-modal");
 const modalCommandName = document.getElementById("modal-command-name");
@@ -60,4 +62,22 @@ modalClose.addEventListener("click", closeModal);
 modalCloseBtn.addEventListener("click", closeModal);
 modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
+});
+
+const commandSearchInput = document.getElementById("command-search");
+
+commandSearchInput.addEventListener("input", () => {
+    const searchTerm = commandSearchInput.value.toLowerCase();
+    const commandCards = document.querySelectorAll(".command-card");
+
+    commandCards.forEach(card => {
+        const commandName = card.querySelector(".command-name").textContent.toLowerCase();
+        const commandDescription = card.querySelector(".command-description").textContent.toLowerCase();
+
+        if (commandName.includes(searchTerm) || commandDescription.includes(searchTerm)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
 });
