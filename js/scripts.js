@@ -1,4 +1,3 @@
-
 const commands = [
     { name: "destroy", description: "Destroy the music playback.", usage: "/destroy" },
     { name: "export", description: "Export the current queue to a file.", usage: "/export" },
@@ -18,9 +17,19 @@ const commands = [
     { name: "seek", description: "Seek to a specific part of the song.", usage: "/seek <time>" },
     { name: "skip", description: "Skip the current song.", usage: "/skip" },
     { name: "status", description: "Check the bot's status.", usage: "/status" },
-    { name: "volume", description: "Set the volume of the music.", usage: "/volume <level>" }
+    { name: "volume", description: "Set the volume of the music.", usage: "/volume <level>" },
+    { name: "playlist play", description: "Play a playlist", usage: "/playlist play" },
+    { name: "playlist create", description: "Create a new playlist", usage: "/playlist create" },
+    { name: "playlist add", description: "Add a track to a playlist", usage: "/playlist add" },
+    { name: "playlist delete", description: "Delete a playlist", usage: "/playlist delete" },
+    { name: "playlist list", description: "List all playlists or tracks in a specific playlist", usage: "/playlist list" },
+    { name: "playlist remove", description: "Remove a track from a playlist", usage: "/playlist remove" },
+    { name: "autoplay", description: "Toggle autoplay", usage: "/autoplay" },
+    { name: "changelog", description: "View the bot's changelog", usage: "/changelog" },
+    { name: "clear", description: "Clear the music queue", usage: "/clear" },
+    { name: "filters", description: "Apply filters on the music", usage: "/filters" },
+    { name: "remove", description: "Remove a track from the queue", usage: "/remove" }
 ];
-
 // Populate Commands Grid
 const commandsGrid = document.getElementById("commands-grid");
 commands.forEach(command => {
