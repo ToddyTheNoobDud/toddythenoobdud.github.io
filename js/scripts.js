@@ -30,7 +30,7 @@ const commands = [
     { name: "filters", description: "Apply filters on the music", usage: "/filters" },
     { name: "remove", description: "Remove a track from the queue", usage: "/remove" }
 ];
-// Populate Commands Grid
+
 const commandsGrid = document.getElementById("commands-grid");
 commands.forEach(command => {
     const commandCard = document.createElement("div");
