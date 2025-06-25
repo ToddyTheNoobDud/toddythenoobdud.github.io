@@ -8,7 +8,7 @@
   --button-text: #fff;
   --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   --border-radius: 16px;
-  --transition: 0.35s cubic-bezier(.4,2,.6,1);
+  --transition: 0.35s cubic-bezier(.4, 2, .6, 1);
 }
 
 body {
@@ -20,6 +20,37 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   letter-spacing: 0.01em;
+}
+
+#particles-canvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
 }
 
 header,
@@ -54,6 +85,7 @@ header,
   box-shadow: 0 2px 8px #0004;
   transition: transform var(--transition);
 }
+
 .logo-container img:hover {
   transform: scale(1.08) rotate(-6deg);
 }
@@ -78,6 +110,7 @@ nav a {
   position: relative;
   overflow: hidden;
 }
+
 nav a::after {
   content: "";
   display: block;
@@ -89,12 +122,16 @@ nav a::after {
   background: var(--accent-color);
   transition: width var(--transition), left var(--transition);
 }
-nav a:hover, nav a:focus {
+
+nav a:hover,
+nav a:focus {
   color: #fff;
   background: var(--accent-color);
   box-shadow: 0 2px 12px #4f8cff44;
 }
-nav a:hover::after, nav a:focus::after {
+
+nav a:hover::after,
+nav a:focus::after {
   width: 100%;
   left: 0;
 }
@@ -108,9 +145,11 @@ nav a:hover::after, nav a:focus::after {
   cursor: pointer;
   transition: color var(--transition);
 }
+
 .mobile-menu-toggle:hover {
   color: #fff;
 }
+
 .hero-section {
   padding: 5rem 2rem 4rem 2rem;
   text-align: center;
@@ -126,7 +165,7 @@ nav a:hover::after, nav a:focus::after {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-shadow: 0 4px 24px #4f8cff33;
-  animation: fadeInDown 1s cubic-bezier(.4,2,.6,1);
+  animation: fadeInDown 1s cubic-bezier(.4, 2, .6, 1);
 }
 
 .hero-content p {
@@ -134,14 +173,14 @@ nav a:hover::after, nav a:focus::after {
   max-width: 650px;
   margin: 0 auto 2.5rem;
   color: #b3c7ff;
-  animation: fadeInUp 1.2s cubic-bezier(.4,2,.6,1);
+  animation: fadeInUp 1.2s cubic-bezier(.4, 2, .6, 1);
 }
 
 .hero-buttons {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  animation: fadeIn 1.5s cubic-bezier(.4,2,.6,1);
+  animation: fadeIn 1.5s cubic-bezier(.4, 2, .6, 1);
 }
 
 .btn {
@@ -165,7 +204,9 @@ nav a:hover::after, nav a:focus::after {
   color: var(--button-text);
   border: none;
 }
-.btn-primary:hover, .btn-primary:focus {
+
+.btn-primary:hover,
+.btn-primary:focus {
   background: linear-gradient(90deg, #6f9fff 60%, #4f8cff 100%);
   transform: translateY(-2px) scale(1.06);
   box-shadow: 0 4px 24px #4f8cff66;
@@ -176,7 +217,9 @@ nav a:hover::after, nav a:focus::after {
   border: 2px solid var(--accent-color);
   color: var(--accent-color);
 }
-.btn-secondary:hover, .btn-secondary:focus {
+
+.btn-secondary:hover,
+.btn-secondary:focus {
   background: var(--accent-color);
   color: #fff;
   transform: translateY(-2px) scale(1.06);
@@ -217,6 +260,7 @@ nav a:hover::after, nav a:focus::after {
   border: 1.5px solid #4f8cff22;
   animation: fadeInUp 1s;
 }
+
 .feature-card:hover {
   transform: translateY(-8px) scale(1.03) rotate(-1deg);
   box-shadow: 0 8px 32px #4f8cff55;
@@ -277,6 +321,7 @@ nav a:hover::after, nav a:focus::after {
   transition: background var(--transition), color var(--transition), box-shadow var(--transition);
   box-shadow: 0 2px 8px #4f8cff11;
 }
+
 .filter-btn.active,
 .filter-btn:hover {
   background: var(--accent-color);
@@ -303,6 +348,7 @@ nav a:hover::after, nav a:focus::after {
   transition: border-color var(--transition), box-shadow var(--transition);
   box-shadow: 0 2px 8px #4f8cff11;
 }
+
 #command-search:focus {
   border-color: #fff;
   box-shadow: 0 4px 16px #4f8cff33;
@@ -334,6 +380,7 @@ nav a:hover::after, nav a:focus::after {
   border: 1.5px solid #4f8cff22;
   font-size: 1.05rem;
 }
+
 .command-card:hover {
   background: #2c2c5a;
   box-shadow: 0 4px 16px #4f8cff33;
@@ -377,6 +424,7 @@ nav a:hover::after, nav a:focus::after {
   cursor: pointer;
   transition: color var(--transition);
 }
+
 .modal-close:hover {
   color: #fff;
 }
@@ -412,10 +460,12 @@ nav a:hover::after, nav a:focus::after {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color) #23234a;
 }
+
 .testimonials-slider::-webkit-scrollbar {
   height: 8px;
   background: #23234a;
 }
+
 .testimonials-slider::-webkit-scrollbar-thumb {
   background: var(--accent-color);
   border-radius: 8px;
@@ -431,6 +481,7 @@ nav a:hover::after, nav a:focus::after {
   border: 1.5px solid #4f8cff22;
   transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .testimonial:hover {
   transform: scale(1.04) translateY(-4px);
   box-shadow: 0 8px 32px #4f8cff55;
@@ -453,6 +504,7 @@ nav a:hover::after, nav a:focus::after {
   border: 1.5px solid #4f8cff22;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
+
 .faq-container details[open] {
   border-color: var(--accent-color);
   box-shadow: 0 4px 16px #4f8cff33;
@@ -466,6 +518,7 @@ nav a:hover::after, nav a:focus::after {
   outline: none;
   transition: color var(--transition);
 }
+
 .faq-container summary:hover {
   color: #fff;
 }
@@ -511,6 +564,7 @@ nav a:hover::after, nav a:focus::after {
   min-width: 140px;
   transition: transform var(--transition), box-shadow var(--transition);
 }
+
 .stat-item:hover {
   transform: scale(1.06) translateY(-2px);
   box-shadow: 0 4px 16px #4f8cff33;
@@ -581,6 +635,7 @@ footer {
   transition: color var(--transition);
   font-size: 1.05rem;
 }
+
 .footer-links a:hover {
   color: var(--accent-color);
 }
@@ -603,10 +658,12 @@ footer {
   font-size: 1.7rem;
   transition: color var(--transition), transform var(--transition);
 }
+
 .social-icons a:hover {
   color: #fff;
   transform: scale(1.15) rotate(-8deg);
 }
+
 /* Starfield background styles */
 #particles {
   position: fixed;
@@ -655,8 +712,17 @@ footer {
 
 /* Star twinkle animation */
 @keyframes twinkle {
-  0%, 100% { opacity: 0.7; filter: blur(0.7px) brightness(1.1);}
-  50% { opacity: 1; filter: blur(0.2px) brightness(1.5);}
+
+  0%,
+  100% {
+    opacity: 0.7;
+    filter: blur(0.7px) brightness(1.1);
+  }
+
+  50% {
+    opacity: 1;
+    filter: blur(0.2px) brightness(1.5);
+  }
 }
 
 /* Star movement (diagonal drift) */
@@ -665,6 +731,7 @@ footer {
     transform: translate(0, 0) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: translate(-60vw, 80vh) scale(0.7);
     opacity: 0.2;
@@ -685,9 +752,17 @@ footer {
 }
 
 @keyframes starLineFade {
-  0% { opacity: 0.8; }
-  80% { opacity: 0.7; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0.8;
+  }
+
+  80% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Shooting star effect */
@@ -700,7 +775,7 @@ footer {
   opacity: 0.85;
   filter: blur(0.5px);
   box-shadow: 0 0 16px #4f8cff99;
-  animation: shootingStar 1.2s cubic-bezier(.4,2,.6,1) forwards;
+  animation: shootingStar 1.2s cubic-bezier(.4, 2, .6, 1) forwards;
   pointer-events: none;
   z-index: 3;
 }
@@ -710,14 +785,17 @@ footer {
     transform: translateY(0) scaleX(0.2) scaleY(1) rotate(-18deg);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
     filter: blur(0.2px);
   }
+
   80% {
     transform: translateY(60vh) scaleX(1.1) scaleY(1) rotate(-18deg);
     opacity: 1;
   }
+
   100% {
     transform: translateY(80vh) scaleX(0.7) scaleY(0.7) rotate(-18deg);
     opacity: 0;
@@ -744,11 +822,13 @@ footer {
   font-size: 1.5rem;
   z-index: 100;
 }
+
 .scroll-to-top.visible {
   opacity: 1;
   transform: scale(1.08);
   box-shadow: 0 4px 16px #4f8cff33;
 }
+
 .scroll-to-top:hover {
   background: var(--accent-color);
   color: #fff;
@@ -757,31 +837,73 @@ footer {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(40px);}
-  to { opacity: 1; transform: translateY(0);}
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-40px);}
-  to { opacity: 1; transform: translateY(0);}
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes popIn {
-  0% { opacity: 0; transform: scale(0.8);}
-  80% { opacity: 1; transform: scale(1.05);}
-  100% { opacity: 1; transform: scale(1);}
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .header-container, .features-section, .commands-section, .testimonials-section, .faq-section, .cta-container, .footer-container {
+
+  .header-container,
+  .features-section,
+  .commands-section,
+  .testimonials-section,
+  .faq-section,
+  .cta-container,
+  .footer-container {
     max-width: 98vw;
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  .features-grid, .commands-grid {
+
+  .features-grid,
+  .commands-grid {
     gap: 1.2rem;
   }
 }
@@ -792,6 +914,7 @@ footer {
     align-items: flex-start;
     width: 98vw;
   }
+
   nav ul {
     display: none;
     flex-direction: column;
@@ -806,61 +929,76 @@ footer {
     z-index: 20;
     padding: 1.5rem 0;
   }
+
   nav ul.active {
     display: flex;
     animation: fadeInDown 0.4s;
   }
+
   .mobile-menu-toggle {
     display: block;
     align-self: flex-end;
     margin-bottom: 0.5rem;
   }
+
   .hero-content h2 {
     font-size: 2.1rem;
   }
+
   .hero-buttons {
     flex-direction: column;
     gap: 1rem;
   }
+
   .features-grid,
   .commands-grid {
     grid-template-columns: 1fr;
   }
+
   #command-search {
     width: 100%;
     max-width: 340px;
   }
+
   .commands-search i {
     right: 16px;
   }
+
   .cta-stats {
     flex-direction: column;
     gap: 1.2rem;
   }
+
   .footer-container {
     flex-direction: column;
     gap: 1.5rem;
     align-items: flex-start;
   }
+
   .testimonials-slider {
     gap: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
+
   .hero-content h2,
   .section-title,
   .cta-container h2 {
     font-size: 1.3rem;
   }
+
   .feature-title,
   .stat-item span {
     font-size: 1.1rem;
   }
-  .btn, .filter-btn {
+
+  .btn,
+  .filter-btn {
     font-size: 0.98rem;
     padding: 0.7rem 1.2rem;
   }
+
   .modal-content {
     padding: 1.2rem 0.5rem;
   }
