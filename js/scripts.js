@@ -104,32 +104,28 @@ commandSearchInput.addEventListener("input", () => {
 document.addEventListener('DOMContentLoaded', () => {
     const particlesContainer = document.getElementById('particles');
     const numberOfStars = 120;
-    const stars = [];
-    const starPositions = [];
-    const starVelocities = [];
+    const maxLines = 200;
+    const maxConnections = 3;
 
     // Use a DocumentFragment for better performance
     const fragment = document.createDocumentFragment();
 
-    // Generate stars with more even distribution and glow
+    // Generate stars with even distribution and glow (no animation)
     for (let i = 0; i < numberOfStars; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
-        const size = Math.random() * 2 + 1.5; // 1.5px to 3.5px
+        const size = Math.random() * 2 + 1.5;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
 
-        // Even distribution using sqrt for radius and random angle
         const angle = Math.random() * 2 * Math.PI;
-        const radius = Math.sqrt(Math.random()) * 48; // up to 48vw/vh
+        const radius = Math.sqrt(Math.random()) * 48;
         const cx = 50 + Math.cos(angle) * radius;
         const cy = 50 + Math.sin(angle) * radius;
 
         star.style.left = `${cx}vw`;
         star.style.top = `${cy}vh`;
 
-        // Subtle twinkle animation, more black/blueish glow
-        star.style.animation = `twinkle ${Math.random() * 2 + 2}s infinite alternate`;
         star.style.boxShadow = `
             0 0 ${size * 4}px ${size * 1.5}px #0a0a1a, 
             0 0 8px 2px #222a, 
@@ -138,23 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         star.style.background = 'radial-gradient(circle, #fff 60%, #222 100%)';
 
         fragment.appendChild(star);
-        stars.push(star);
-        starPositions.push({ x: cx, y: cy });
-
-        // Give each star a small random velocity
-        const speed = Math.random() * 0.03 + 0.01; // vw/vh per frame
-        const dir = Math.random() * 2 * Math.PI;
-        starVelocities.push({
-            vx: Math.cos(dir) * speed,
-            vy: Math.sin(dir) * speed
-        });
     }
     particlesContainer.appendChild(fragment);
-
-    // Draw lines between close stars (max 3 connections per star)
-    // We'll use a persistent container for lines to avoid memory leaks
-    let lines = [];
-    const maxConnections = 3;
 
     // Create a dedicated container for lines
     let linesContainer = document.createElement('div');
@@ -166,22 +147,32 @@ document.addEventListener('DOMContentLoaded', () => {
     linesContainer.style.pointerEvents = 'none';
     particlesContainer.appendChild(linesContainer);
 
-    function updateLines() {
-        // Remove all old lines efficiently
+    // Draw static lines between close stars (no caching, no arrays)
+    function drawLines() {
+        // Get all stars from DOM
+        const stars = particlesContainer.querySelectorAll('.star');
+        const starPositions = [];
+        stars.forEach(star => {
+            const x = parseFloat(star.style.left);
+            const y = parseFloat(star.style.top);
+            starPositions.push({ x, y });
+        });
+
+        // Remove previous lines
         while (linesContainer.firstChild) {
             linesContainer.removeChild(linesContainer.firstChild);
         }
-        lines = [];
+
         const connectionMap = Array(numberOfStars).fill(0);
+        let lineCount = 0;
 
         for (let i = 0; i < numberOfStars; i++) {
-            let connections = 0;
             for (let j = i + 1; j < numberOfStars; j++) {
                 if (connectionMap[i] >= maxConnections || connectionMap[j] >= maxConnections) continue;
                 const dx = starPositions[i].x - starPositions[j].x;
                 const dy = starPositions[i].y - starPositions[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 12) { // connect if within 12vw/vh
+                if (dist < 12 && lineCount < maxLines) {
                     const line = document.createElement('div');
                     line.classList.add('line');
                     line.style.position = 'absolute';
@@ -193,44 +184,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     line.style.transformOrigin = '0 0';
                     line.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
                     line.style.opacity = '0.5';
-                    line.style.pointerEvents = 'none';
                     linesContainer.appendChild(line);
-                    lines.push(line);
+                    lineCount++;
                     connectionMap[i]++;
                     connectionMap[j]++;
-                    connections++;
-                    if (connections >= maxConnections) break;
                 }
             }
         }
     }
 
-    function animate() {
-        // Move stars
-        for (let i = 0; i < numberOfStars; i++) {
-            let pos = starPositions[i];
-            let vel = starVelocities[i];
-            pos.x += vel.vx;
-            pos.y += vel.vy;
-
-            // Bounce off edges (0vw/100vw, 0vh/100vh)
-            if (pos.x < 0 || pos.x > 100) vel.vx *= -1;
-            if (pos.y < 0 || pos.y > 100) vel.vy *= -1;
-
-            // Clamp positions to stay within bounds
-            pos.x = Math.max(0, Math.min(100, pos.x));
-            pos.y = Math.max(0, Math.min(100, pos.y));
-
-            stars[i].style.left = `${pos.x}vw`;
-            stars[i].style.top = `${pos.y}vh`;
-        }
-        updateLines();
-        requestAnimationFrame(animate);
-    }
-
-    // Set a dark background for the container
     particlesContainer.style.background = 'linear-gradient(180deg, #050510 0%, #111 100%)';
+    drawLines();
 
-    updateLines();
-    animate();
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+        while (particlesContainer.firstChild) {
+            particlesContainer.removeChild(particlesContainer.firstChild);
+        }
+    });
 });
