@@ -152,13 +152,25 @@ document.addEventListener('DOMContentLoaded', () => {
     particlesContainer.appendChild(fragment);
 
     // Draw lines between close stars (max 3 connections per star)
-    // We'll need to update these lines every frame, so keep references
+    // We'll use a persistent container for lines to avoid memory leaks
     let lines = [];
     const maxConnections = 3;
 
+    // Create a dedicated container for lines
+    let linesContainer = document.createElement('div');
+    linesContainer.style.position = 'absolute';
+    linesContainer.style.left = '0';
+    linesContainer.style.top = '0';
+    linesContainer.style.width = '100vw';
+    linesContainer.style.height = '100vh';
+    linesContainer.style.pointerEvents = 'none';
+    particlesContainer.appendChild(linesContainer);
+
     function updateLines() {
-        // Remove old lines
-        lines.forEach(line => line.remove());
+        // Remove all old lines efficiently
+        while (linesContainer.firstChild) {
+            linesContainer.removeChild(linesContainer.firstChild);
+        }
         lines = [];
         const connectionMap = Array(numberOfStars).fill(0);
 
@@ -182,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     line.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
                     line.style.opacity = '0.5';
                     line.style.pointerEvents = 'none';
-                    particlesContainer.appendChild(line);
+                    linesContainer.appendChild(line);
                     lines.push(line);
                     connectionMap[i]++;
                     connectionMap[j]++;
