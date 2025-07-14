@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. Particle Canvas Animation (Falling Stars) ---
     const canvas = document.getElementById('particles-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        
+
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -12,26 +11,96 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const numberOfStars = 150;
+        const numberOfStars = 800;
         const stars = [];
+
+        function getRandomStarColor() {
+            const colors = ['#FFFFFF', '#F0F8FF', '#ADD8E6', '#FFFFE0'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
 
         for (let i = 0; i < numberOfStars; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: Math.random() * 0.8 + 0.2,
-                size: Math.random() * 2 + 1,
-                color: '#FFFFFF'
+                vx: (Math.random() - 0.5) * 0.02,
+                vy: (Math.random() - 0.5) * 0.02,
+                size: Math.random() * 1.8 + 0.3,
+                color: getRandomStarColor()
             });
         }
 
+        class Meteor {
+            constructor(canvasWidth, canvasHeight) {
+                this.reset(canvasWidth, canvasHeight);
+            }
+
+            reset(canvasWidth, canvasHeight) {
+                const startEdge = Math.random();
+                if (startEdge < 0.5) {
+                    this.x = Math.random() * canvasWidth;
+                    this.y = -Math.random() * 500 - 100;
+                } else {
+                    this.x = -Math.random() * 500 - 100;
+                    this.y = Math.random() * canvasHeight;
+                }
+
+                this.vx = Math.random() * 0.5 + 0.5;
+                this.vy = Math.random() * 0.5 + 0.5;
+                this.size = Math.random() * 3 + 1.5;
+                this.length = Math.random() * 200 + 100;
+                this.color = `rgba(255, 255, 255, 0.8)`;
+                this.opacity = 1;
+                this.fadingSpeed = 0.001;
+                this.trailPoints = [];
+                this.maxTrailPoints = 150;
+            }
+
+            draw(ctx) {
+                for (let i = 0; i < this.trailPoints.length; i++) {
+                    const point = this.trailPoints[i];
+                    const alpha = (i / this.trailPoints.length) * 0.5;
+
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, this.size * 0.6, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 220, ${alpha})`;
+                    ctx.globalAlpha = 1;
+                    ctx.fill();
+                }
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+            }
+
+            update(canvasWidth, canvasHeight) {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                this.trailPoints.push({ x: this.x, y: this.y });
+                if (this.trailPoints.length > this.maxTrailPoints) {
+                    this.trailPoints.shift();
+                }
+
+                this.opacity -= this.fadingSpeed;
+
+                if (this.x > canvasWidth + this.length || this.y > canvasHeight + this.length || this.opacity <= 0) {
+                    this.reset(canvasWidth, canvasHeight);
+                }
+            }
+        }
+
+        const numberOfMeteors = 3;
+        const meteors = [];
+
+        for (let i = 0; i < numberOfMeteors; i++) {
+            meteors.push(new Meteor(canvas.width, canvas.height));
+        }
+
         function animateParticles() {
-            const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            bgGradient.addColorStop(0, '#050510');
-            bgGradient.addColorStop(1, '#111');
-            ctx.fillStyle = bgGradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             stars.forEach(star => {
                 star.x += star.vx;
@@ -40,44 +109,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (star.y > canvas.height + star.size) {
                     star.y = 0 - star.size;
                     star.x = Math.random() * canvas.width;
+                } else if (star.y < 0 - star.size) {
+                    star.y = canvas.height + star.size;
+                    star.x = Math.random() * canvas.width;
                 }
-                if (star.x < 0 - star.size) {
-                    star.x = canvas.width + star.size;
-                } else if (star.x > canvas.width + star.size) {
+                if (star.x > canvas.width + star.size) {
                     star.x = 0 - star.size;
+                    star.y = Math.random() * canvas.height;
+                } else if (star.x < 0 - star.size) {
+                    star.x = canvas.width + star.size;
+                    star.y = Math.random() * canvas.height;
                 }
 
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
                 ctx.fillStyle = star.color;
-                ctx.shadowColor = '#FFFFFF';
-                ctx.shadowBlur = 8;
+                ctx.globalAlpha = Math.random() * 0.6 + 0.4;
                 ctx.fill();
             });
-            
-            ctx.shadowBlur = 0;
-            
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < stars.length; i++) {
-                for (let j = i + 1; j < stars.length; j++) {
-                    const dx = stars[i].x - stars[j].x;
-                    const dy = stars[i].y - stars[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (dist < 120) {
-                        ctx.globalAlpha = 1 - (dist / 120);
-                        ctx.beginPath();
-                        ctx.moveTo(stars[i].x, stars[i].y);
-                        ctx.lineTo(stars[j].x, stars[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
+            meteors.forEach(meteor => {
+                meteor.update(canvas.width, canvas.height);
+                meteor.draw(ctx);
+            });
+
             ctx.globalAlpha = 1;
-
             requestAnimationFrame(animateParticles);
         }
+
         animateParticles();
     }
 
