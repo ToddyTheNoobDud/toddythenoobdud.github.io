@@ -103,3 +103,35 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Additional design tokens and utilities */
+@layer base {
+  :root {
+    /* Brand and aesthetic tokens */
+    --brand: 268 85% 58%; /* electric violet */
+    --brand-2: 320 83% 54%; /* vibrant magenta */
+    --brand-foreground: 0 0% 100%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand)) 0%, hsl(var(--brand-2)) 100%);
+    --gradient-soft: radial-gradient(1200px 600px at 50% -20%, hsl(var(--brand) / 0.25), transparent 60%), radial-gradient(800px 400px at 80% 10%, hsl(var(--brand-2) / 0.25), transparent 60%);
+
+    /* Shadows */
+    --shadow-elevated: 0 10px 30px -12px hsl(var(--brand) / 0.35);
+    --shadow-glow: 0 0 48px hsl(var(--brand-2) / 0.35);
+  }
+
+  .dark {
+    --brand: 268 85% 70%;
+    --brand-2: 320 83% 66%;
+    --brand-foreground: 0 0% 100%;
+  }
+}
+
+@layer components {
+  .story-link {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+  .hover-scale { @apply transition-transform duration-200 hover:scale-105; }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+}
