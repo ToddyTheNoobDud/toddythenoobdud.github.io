@@ -1,3 +1,4 @@
+
 import { Helmet } from "react-helmet-async";
 import Starfield from "@/components/Starfield";
 import { Button } from "@/components/ui/button";
@@ -19,12 +20,26 @@ import {
   ListMusic,
   Mic2,
   Cpu,
+  Plus,
+  MessageCircle,
+  Command,
+  Volume2,
+  Play,
+  Pause,
+  SkipForward,
+  Shuffle,
+  Repeat,
+  Search,
+  Download,
+  Upload,
+  BarChart3,
 } from "lucide-react";
 
-const AVATAR =
-  "https://toddythenoobdud.github.io/0a0f3c0476c8b495838fa6a94c7e88c2.png";
+const AVATAR = "https://toddythenoobdud.github.io/0a0f3c0476c8b495838fa6a94c7e88c2.png";
 const GITHUB = "https://github.com/ToddyTheNoobDud/Kenium-Music";
 const SETUP_VIDEO = "https://www.youtube.com/watch?v=5etqxAG9tVg";
+const INVITE_URL = "https://discord.com/oauth2/authorize?client_id=1202232935311495209";
+const SUPPORT_SERVER = "https://discord.com/invite/K4CVv84VBC";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -32,28 +47,17 @@ const jsonLd = {
   name: "Kenium — Free Discord Music Bot",
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Any",
-  description:
-    "Kenium is a free, open-source Discord music bot. 24/7 uptime, Lavalink powered, zero paywalls or vote gates.",
+  description: "Kenium is a free, open-source Discord music bot. 24/7 uptime, Lavalink powered, zero paywalls or vote gates.",
   url: GITHUB,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   creator: { "@type": "Organization", name: "Kenium" },
 };
 
-function SectionHeading({
-  title,
-  subtitle,
-}: {
-  title: string;
-  subtitle?: string;
-}) {
+function SectionHeading({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
-      <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="mt-3 text-lg text-muted-foreground">{subtitle}</p>
-      )}
+      <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{title}</h2>
+      {subtitle && <p className="mt-3 text-lg text-muted-foreground">{subtitle}</p>}
     </div>
   );
 }
@@ -61,8 +65,27 @@ function SectionHeading({
 const Index = () => {
   const canonical = typeof window !== "undefined" ? window.location.href : "/";
 
+  const commands = [
+    { name: "play", desc: "Play a song by search query or URL", icon: Play },
+    { name: "pause", desc: "Pause the music", icon: Pause },
+    { name: "skip", desc: "Skip the music", icon: SkipForward },
+    { name: "queue", desc: "Show the music queue", icon: ListMusic },
+    { name: "shuffle", desc: "Shuffle your queue", icon: Shuffle },
+    { name: "loop", desc: "Want some loop bro?", icon: Repeat },
+    { name: "volume", desc: "Change the volume of the music player", icon: Volume2 },
+    { name: "lyrics", desc: "Get lyrics for the current song or search", icon: Mic2 },
+    { name: "search", desc: "Search for a song on music platforms", icon: Search },
+    { name: "filters", desc: "Apply some filters", icon: SlidersHorizontal },
+    { name: "export", desc: "Export the queue", icon: Download },
+    { name: "import", desc: "Import a queue from a file", icon: Upload },
+    { name: "247", desc: "Toggle 247 mode", icon: ShieldCheck },
+    { name: "autoplay", desc: "Toggle autoplay", icon: Music },
+    { name: "nowplaying", desc: "Displays the currently playing song", icon: BarChart3 },
+    { name: "playlists", desc: "Manage your personal playlists", icon: ListMusic },
+  ];
+
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden bg-black">
       <Helmet>
         <title>Kenium — Free Discord Music Bot (Open Source)</title>
         <meta
@@ -107,18 +130,23 @@ const Index = () => {
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
               Simple, fast, 24/7. No votes. No paywalls. Just pure music vibes —
-              powered by Lavalink and Aqualink.
+              powered by Lavalink and Aqualink. Join thousands of servers already vibing with Kenium.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button asChild variant="hero" size="xl" className="shadow-glow">
-                <a href={GITHUB} aria-label="View Kenium on GitHub" target="_blank" rel="noreferrer">
-                  <Github className="mr-1" /> Star on GitHub
+                <a href={INVITE_URL} aria-label="Invite Kenium to your Discord server" target="_blank" rel="noreferrer">
+                  <Plus className="mr-1" /> Invite to Discord
                 </a>
               </Button>
               <Button asChild variant="outline" size="xl" className="backdrop-blur">
-                <a href={SETUP_VIDEO} target="_blank" rel="noreferrer">
-                  <Zap className="mr-1" /> Setup Video
+                <a href={SUPPORT_SERVER} target="_blank" rel="noreferrer">
+                  <MessageCircle className="mr-1" /> Support Server
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="xl" className="backdrop-blur">
+                <a href={GITHUB} aria-label="View Kenium on GitHub" target="_blank" rel="noreferrer">
+                  <Github className="mr-1" /> GitHub
                 </a>
               </Button>
             </div>
@@ -130,41 +158,43 @@ const Index = () => {
       <section className="relative">
         <div className="container py-10 md:py-14">
           <SectionHeading
-            title="Why Kenium?"
-            subtitle="Free vibes only. Always online. Crystal-clear and open-source."
+            title="Why Kenium Slays in 2025?"
+            subtitle="While other bots went pay-to-play or got shut down, Kenium stays free, reliable, and community-driven."
           />
 
           <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Zap /> Free Vibes Only
+                  <Zap className="text-brand" /> Free Vibes Only
                 </CardTitle>
                 <CardDescription>
                   Play from YouTube, Spotify, SoundCloud, Vimeo or local files —
-                  zero cost and no vote gates.
+                  zero cost and no vote gates. Unlike MEE6, Hydra, or other bots that went premium, Kenium stays completely free.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <ShieldCheck /> Always Ready
+                  <ShieldCheck className="text-brand-2" /> Always Ready
                 </CardTitle>
                 <CardDescription>
-                  24/7 jams on Galact Hosting. Stable and reliable for gaming or chilling.
+                  24/7 jams on Galact Hosting. Stable and reliable for gaming or chilling. 
+                  No more "bot offline" disappointments during your epic gaming sessions.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Settings2 /> Easy as /play
+                  <Settings2 className="text-brand" /> Easy as /play
                 </CardTitle>
                 <CardDescription>
                   One command to start. Smart autocomplete to find tracks fast.
+                  No complicated setup, no premium features locked behind paywalls.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -176,82 +206,125 @@ const Index = () => {
       <section className="relative">
         <div className="container py-10 md:py-14">
           <SectionHeading
-            title="Features that Slay"
-            subtitle="Packed with everything you need — all free."
+            title="Features that Actually Matter"
+            subtitle="Everything you need for the perfect Discord music experience — all included, all free."
           />
 
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Music /> Fast Jams
+                  <Music className="text-brand" /> Lightning Fast Playback
                 </CardTitle>
                 <CardDescription>
                   Smooth audio with ultra-low memory use (~0.5–1 MB RAM per player).
+                  No lag, no buffering issues.
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
                 Works with YouTube, Spotify, SoundCloud, Vimeo and local files.
+                Support for playlists and URLs from all major platforms.
               </CardContent>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <ListMusic /> Queue Control
+                  <ListMusic className="text-brand-2" /> Advanced Queue Management
                 </CardTitle>
                 <CardDescription>
-                  Use /clear, /remove or /shuffle to own your playlist.
+                  Use /clear, /remove, /jump, or /shuffle to own your playlist.
+                  Queue up to 1000 songs and never run out of music.
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                Autocomplete-powered search makes it effortless.
+                Autocomplete-powered search makes finding tracks effortless.
+                Jump to specific songs or positions in your queue.
               </CardContent>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <SlidersHorizontal /> Playlist Power
+                  <SlidersHorizontal className="text-brand" /> Personal Playlists
                 </CardTitle>
                 <CardDescription>
-                  Save or share playlists as .txt or .pdf with auto naming.
+                  Create, manage, and share personal playlists. Export as .txt, .pdf, or .json.
+                  Import playlists from other bots or music services.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Mic2 /> Lyrics On Tap
+                  <Mic2 className="text-brand-2" /> Lyrics On Demand
                 </CardTitle>
                 <CardDescription>
-                  Pull lyrics from Genius or LyricFind — even for deep cuts.
+                  Pull lyrics from Genius or LyricFind — even for deep cuts and rare tracks.
+                  Never wonder about those lyrics again.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <SlidersHorizontal /> Tune It Up
+                  <SlidersHorizontal className="text-brand" /> Audio Filters & Effects
                 </CardTitle>
                 <CardDescription>
-                  Bass boost, speed control and filters. No upsells.
+                  Bass boost, 8D audio, karaoke mode, nightcore, vaporwave, and more.
+                  15+ audio filters to customize your listening experience.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Cpu /> Powered by Aqualink
+                  <Cpu className="text-brand-2" /> Powered by Aqualink
                 </CardTitle>
                 <CardDescription>
-                  Super light Lavalink client (~0.5–1 MB RAM) that’s fast and stable.
+                  Super light Lavalink client (~0.5–1 MB RAM) that's fast and stable.
+                  Built for performance and reliability.
                 </CardDescription>
               </CardHeader>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* COMMANDS SECTION */}
+      <section className="relative">
+        <div className="container py-10 md:py-14">
+          <SectionHeading
+            title="Essential Commands"
+            subtitle="Master Kenium with these core commands — everything you need to control your music."
+          />
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {commands.map((cmd, index) => {
+              const IconComponent = cmd.icon;
+              return (
+                <Card key={cmd.name} className="animate-enter bg-card/30 backdrop-blur hover:bg-card/50 transition-colors">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <IconComponent className="h-5 w-5 text-brand mt-0.5 flex-shrink-0" />
+                      <div>
+                        <h4 className="font-medium text-sm">/{cmd.name}</h4>
+                        <p className="text-xs text-muted-foreground mt-1">{cmd.desc}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-muted-foreground">
+              And many more! Type <code className="bg-muted px-2 py-1 rounded text-sm">/</code> in Discord to see all available commands.
+            </p>
           </div>
         </div>
       </section>
@@ -260,15 +333,41 @@ const Index = () => {
       <section className="relative">
         <div className="container py-10 md:py-14">
           <SectionHeading
-            title="Set It Up in Minutes"
-            subtitle="Deploy Kenium on your server with this quick guide."
+            title="Get Started in Minutes"
+            subtitle="Add Kenium to your server or deploy your own instance — it's your choice."
           />
 
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <Card className="animate-enter">
+            <Card className="animate-enter bg-card/50 backdrop-blur">
               <CardHeader>
-                <CardTitle>Steps</CardTitle>
-                <CardDescription>Quickstart for Node 20+ and Lavalink</CardDescription>
+                <CardTitle>Quick Invite</CardTitle>
+                <CardDescription>Add Kenium to your server instantly</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    The fastest way to get started. Kenium is already hosted and ready to serve your music needs 24/7.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button asChild variant="hero" className="shadow-glow flex-1">
+                      <a href={INVITE_URL} target="_blank" rel="noreferrer">
+                        <Plus className="mr-1" /> Invite Kenium
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline">
+                      <a href={SUPPORT_SERVER} target="_blank" rel="noreferrer">
+                        <MessageCircle className="mr-1" /> Support
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="animate-enter bg-card/50 backdrop-blur">
+              <CardHeader>
+                <CardTitle>Self-Host Setup</CardTitle>
+                <CardDescription>Deploy your own instance for maximum control</CardDescription>
               </CardHeader>
               <CardContent>
                 <ol className="list-decimal space-y-3 pl-5 text-sm text-muted-foreground">
@@ -278,7 +377,7 @@ const Index = () => {
                   <li>Clone the repo: <code className="rounded bg-muted px-1 py-0.5">git clone {GITHUB}</code></li>
                   <li>Install deps: <code className="rounded bg-muted px-1 py-0.5">pnpm install</code></li>
                   <li>Copy <code>.env.example</code> to <code>.env</code> and fill details</li>
-                  <li>Start: <code className="rounded bg-muted px-1 py-0.5">pnpm start</code> or <code>npm start</code></li>
+                  <li>Start: <code className="rounded bg-muted px-1 py-0.5">pnpm start</code></li>
                 </ol>
                 <div className="mt-4">
                   <Button asChild variant="outline">
@@ -289,28 +388,45 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
 
-            <Card className="animate-enter">
-              <CardHeader>
-                <CardTitle>Why It Beats the Rest</CardTitle>
-                <CardDescription>No votes. No paywalls. No shady stuff.</CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground space-y-3">
-                <p>
-                  In 2025, many music bots went pay-to-play or got shut down. Kenium stays free, reliable, and open-source — with smooth uptime on Galact Hosting and no YouTube restrictions slowing you down.
-                </p>
-                <p>
-                  Read the code on GitHub, submit ideas or PRs, and shape the future of the bot together with the community.
-                </p>
-                <div className="pt-2">
-                  <Button asChild variant="hero" className="shadow-glow">
-                    <a href={GITHUB} target="_blank" rel="noreferrer">
-                      <Github className="mr-1" /> Contribute on GitHub
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+      {/* COMMUNITY SECTION */}
+      <section className="relative">
+        <div className="container py-10 md:py-14">
+          <SectionHeading
+            title="Join the Community"
+            subtitle="Thousands of servers already trust Kenium for their music needs."
+          />
+
+          <div className="mt-8 text-center space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-brand mb-2">24/7</div>
+                <div className="text-muted-foreground">Uptime guarantee</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-brand-2 mb-2">0$</div>
+                <div className="text-muted-foreground">Forever free</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-brand mb-2">50+</div>
+                <div className="text-muted-foreground">Commands available</div>
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <p className="text-muted-foreground mb-6">
+                In 2025, many music bots went pay-to-play or got shut down. Kenium stays free, reliable, and open-source — 
+                with smooth uptime and no YouTube restrictions slowing you down. Built by the community, for the community.
+              </p>
+              <Button asChild variant="hero" className="shadow-glow">
+                <a href={GITHUB} target="_blank" rel="noreferrer">
+                  <Github className="mr-1" /> Contribute on GitHub
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -318,8 +434,8 @@ const Index = () => {
       {/* STARS SECTION */}
       <section className="relative">
         <div className="container py-10 md:py-14">
-          <SectionHeading title="Stars" subtitle="Kenium growth over time" />
-          <div className="mt-6 overflow-hidden rounded-lg border bg-card p-2 animate-enter">
+          <SectionHeading title="Growth & Stars" subtitle="Kenium's journey over time" />
+          <div className="mt-6 overflow-hidden rounded-lg border bg-card/50 backdrop-blur p-2 animate-enter">
             <a
               href="https://www.star-history.com/#ToddyTheNoobDud/Kenium-Music&Date"
               target="_blank"
@@ -337,7 +453,7 @@ const Index = () => {
                 />
                 <img
                   alt="Star History Chart for Kenium"
-                  src="https://api.star-history.com/svg?repos=ToddyTheNoobDud/Kenium-Music&type=Date"
+                  src="https://api.star-history.com/svg?repos=ToddyTheNoobDud/Kenium-Music&type=Date&theme=dark"
                   loading="lazy"
                 />
               </picture>
@@ -346,7 +462,7 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="relative border-t">
+      <footer className="relative border-t border-border/50">
         <div className="container flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
           <div className="flex items-center gap-3">
             <img
@@ -358,15 +474,21 @@ const Index = () => {
               loading="lazy"
             />
             <span className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Kenium. MIT Licensed.
+              © {new Date().getFullYear()} Kenium. MIT Licensed. Made with ❤️ for the Discord community.
             </span>
           </div>
           <nav className="flex items-center gap-4 text-sm">
+            <a className="story-link" href={INVITE_URL} target="_blank" rel="noreferrer">
+              Invite Bot
+            </a>
+            <a className="story-link" href={SUPPORT_SERVER} target="_blank" rel="noreferrer">
+              Support
+            </a>
             <a className="story-link" href={GITHUB} target="_blank" rel="noreferrer">
               GitHub
             </a>
             <a className="story-link" href={SETUP_VIDEO} target="_blank" rel="noreferrer">
-              Setup Video
+              Setup Guide
             </a>
           </nav>
         </div>

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from "react";
 
 interface Star {
@@ -34,7 +35,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       initStars();
     };
 
-    const STAR_COUNT = Math.min(400, Math.floor((width * height) / 6000));
+    const STAR_COUNT = Math.min(500, Math.floor((width * height) / 5000));
 
     const initStars = () => {
       const stars: Star[] = [];
@@ -52,8 +53,8 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
 
     // Resolve brand tokens once to avoid Canvas not parsing CSS var() in gradients
     const rootStyle = getComputedStyle(document.documentElement);
-    const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 58%");
-    const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 54%");
+    const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 70%");
+    const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%");
 
     window.addEventListener("resize", onResize);
 
@@ -61,32 +62,43 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle gradient glow using design tokens
+      // Centered gradient glow using design tokens
       const grad = ctx.createRadialGradient(
         width * 0.5,
-        height * -0.2,
+        height * 0.3,
         0,
         width * 0.5,
-        height * 0.2,
-        Math.max(width, height)
+        height * 0.3,
+        Math.max(width, height) * 0.8
       );
-      grad.addColorStop(0, `hsl(${brand} / 0.12)`);
+      grad.addColorStop(0, `hsl(${brand} / 0.2)`);
+      grad.addColorStop(0.5, `hsl(${brand2} / 0.1)`);
       grad.addColorStop(1, `transparent`);
-      // Background is already from page; we just add a faint hue overlay
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
       for (const s of starsRef.current) {
-        const size = s.z * 1.5;
-        ctx.fillStyle = `hsl(${brand2} / ${0.6 * s.z})` as unknown as string;
+        const size = s.z * 2;
+        const alpha = 0.7 + s.z * 0.3;
+        ctx.fillStyle = `hsl(${brand2} / ${alpha})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
         ctx.fill();
 
-        // motion
-        s.x += (0.15 + s.z * 0.35);
-        if (s.x > width + 2) {
-          s.x = -2;
+        // Add twinkling effect
+        if (Math.random() < 0.01) {
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = `hsl(${brand} / 0.8)`;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        // Slow motion for centered feel
+        s.x += (0.1 + s.z * 0.2);
+        s.y += Math.sin(Date.now() * 0.0001 + s.x * 0.01) * 0.1;
+        
+        if (s.x > width + 5) {
+          s.x = -5;
           s.y = Math.random() * height;
           s.z = Math.random() * 0.8 + 0.2;
         }
@@ -109,7 +121,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     <canvas
       ref={canvasRef}
       className={
-        "absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(1200px_600px_at_50%_-20%,hsl(var(--brand)/0.08),transparent_60%),radial-gradient(800px_400px_at_80%_10%,hsl(var(--brand-2)/0.08),transparent_60%)] " +
+        "absolute inset-0 -z-10 h-full w-full " +
         (className ?? "")
       }
       aria-hidden="true"
