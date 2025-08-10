@@ -49,6 +49,12 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     };
 
     initStars();
+
+    // Resolve brand tokens once to avoid Canvas not parsing CSS var() in gradients
+    const rootStyle = getComputedStyle(document.documentElement);
+    const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 58%");
+    const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 54%");
+
     window.addEventListener("resize", onResize);
 
     const draw = () => {
@@ -64,15 +70,15 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         height * 0.2,
         Math.max(width, height)
       );
-      grad.addColorStop(0, `hsla(var(--brand), 0.12)`);
-      grad.addColorStop(1, `hsla(var(--background), 0)`);
+      grad.addColorStop(0, `hsl(${brand} / 0.12)`);
+      grad.addColorStop(1, `transparent`);
       // Background is already from page; we just add a faint hue overlay
-      ctx.fillStyle = grad as unknown as string;
+      ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
       for (const s of starsRef.current) {
         const size = s.z * 1.5;
-        ctx.fillStyle = `hsla(var(--brand-2), ${0.6 * s.z})` as unknown as string;
+        ctx.fillStyle = `hsl(${brand2} / ${0.6 * s.z})` as unknown as string;
         ctx.beginPath();
         ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
         ctx.fill();
