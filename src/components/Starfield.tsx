@@ -39,6 +39,11 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       initStars();
     };
 
+    // Resolve brand tokens once to avoid Canvas not parsing CSS var() in gradients
+    const rootStyle = getComputedStyle(document.documentElement);
+    const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 70%");
+    const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%");
+
     const STAR_COUNT = Math.min(800, Math.floor((width * height) / 3000));
 
     const initStars = () => {
@@ -75,11 +80,6 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     };
 
     initStars();
-
-    // Resolve brand tokens once to avoid Canvas not parsing CSS var() in gradients
-    const rootStyle = getComputedStyle(document.documentElement);
-    const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 70%");
-    const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%");
 
     window.addEventListener("resize", onResize);
 
