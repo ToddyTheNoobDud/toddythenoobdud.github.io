@@ -44,7 +44,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     const brand = (rootStyle.getPropertyValue("--brand").trim() || "268 85% 70%");
     const brand2 = (rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%");
 
-    const STAR_COUNT = Math.min(800, Math.floor((width * height) / 3000));
+    const STAR_COUNT = Math.min(1200, Math.floor((width * height) / 2000)); // More stars for denser galaxy
 
     const initStars = () => {
       const stars: Star[] = [];
@@ -88,27 +88,51 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Multiple cosmic gradients for galaxy effect
-      const centerGrad = ctx.createRadialGradient(
-        width * 0.5, height * 0.4, 0,
-        width * 0.5, height * 0.4, Math.max(width, height) * 0.6
+      // Deep space background with layered cosmic effects
+      const deepSpaceGrad = ctx.createRadialGradient(
+        width * 0.5, height * 0.5, 0,
+        width * 0.5, height * 0.5, Math.max(width, height) * 0.8
       );
-      centerGrad.addColorStop(0, `hsl(${brand} / 0.15)`);
-      centerGrad.addColorStop(0.3, `hsl(${brand2} / 0.1)`);
-      centerGrad.addColorStop(0.7, 'hsl(270 50% 20% / 0.05)');
-      centerGrad.addColorStop(1, 'transparent');
-      ctx.fillStyle = centerGrad;
+      deepSpaceGrad.addColorStop(0, 'hsl(240 30% 5% / 0.3)');
+      deepSpaceGrad.addColorStop(0.4, 'hsl(260 40% 8% / 0.2)');
+      deepSpaceGrad.addColorStop(0.8, 'hsl(280 20% 3% / 0.1)');
+      deepSpaceGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = deepSpaceGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Secondary nebula clouds
-      const nebulaGrad = ctx.createRadialGradient(
-        width * 0.2, height * 0.7, 0,
-        width * 0.2, height * 0.7, Math.max(width, height) * 0.4
+      // Galaxy core with rotating spiral arms
+      const coreGrad = ctx.createRadialGradient(
+        width * 0.5, height * 0.4, 0,
+        width * 0.5, height * 0.4, Math.max(width, height) * 0.4
       );
-      nebulaGrad.addColorStop(0, 'hsl(300 80% 60% / 0.08)');
-      nebulaGrad.addColorStop(0.5, 'hsl(210 90% 70% / 0.05)');
-      nebulaGrad.addColorStop(1, 'transparent');
-      ctx.fillStyle = nebulaGrad;
+      coreGrad.addColorStop(0, `hsl(${brand} / 0.25)`);
+      coreGrad.addColorStop(0.2, `hsl(${brand2} / 0.18)`);
+      coreGrad.addColorStop(0.5, 'hsl(270 60% 30% / 0.12)');
+      coreGrad.addColorStop(0.8, 'hsl(300 40% 20% / 0.06)');
+      coreGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = coreGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Distant nebula clouds with cosmic dust
+      const nebulaGrad1 = ctx.createRadialGradient(
+        width * 0.15, height * 0.8, 0,
+        width * 0.15, height * 0.8, Math.max(width, height) * 0.3
+      );
+      nebulaGrad1.addColorStop(0, 'hsl(300 90% 70% / 0.12)');
+      nebulaGrad1.addColorStop(0.6, 'hsl(210 80% 60% / 0.08)');
+      nebulaGrad1.addColorStop(1, 'transparent');
+      ctx.fillStyle = nebulaGrad1;
+      ctx.fillRect(0, 0, width, height);
+
+      // Secondary nebula for depth
+      const nebulaGrad2 = ctx.createRadialGradient(
+        width * 0.8, height * 0.2, 0,
+        width * 0.8, height * 0.2, Math.max(width, height) * 0.25
+      );
+      nebulaGrad2.addColorStop(0, 'hsl(180 70% 80% / 0.1)');
+      nebulaGrad2.addColorStop(0.5, 'hsl(200 60% 70% / 0.06)');
+      nebulaGrad2.addColorStop(1, 'transparent');
+      ctx.fillStyle = nebulaGrad2;
       ctx.fillRect(0, 0, width, height);
 
       for (const s of starsRef.current) {
