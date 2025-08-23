@@ -1,5 +1,6 @@
 
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import Starfield from "@/components/Starfield";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,7 @@ import {
   Settings2,
   Github,
   ShieldCheck,
+  Shield,
   SlidersHorizontal,
   ListMusic,
   Mic2,
@@ -148,6 +150,11 @@ const Index = () => {
                 <a href={GITHUB} aria-label="View Kenium on GitHub" target="_blank" rel="noreferrer">
                   <Github className="mr-1" /> GitHub
                 </a>
+              </Button>
+              <Button asChild variant="ghost" size="xl" className="backdrop-blur">
+                <Link to="/privacy">
+                  <Shield className="mr-1" /> Privacy Policy
+                </Link>
               </Button>
             </div>
           </div>
