@@ -79,6 +79,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       starsRef.current = stars;
     };
 
+    // Call initStars after brand variables are defined
     initStars();
 
     window.addEventListener("resize", onResize);
