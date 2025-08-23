@@ -56,14 +56,17 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         'hsl(300 80% 80%)', // Pink
         'hsl(60 100% 90%)', // Yellow
         'hsl(0 0% 95%)', // White
+        'hsl(180 80% 85%)', // Cyan
+        'hsl(30 100% 85%)', // Orange
       ];
       
       for (let i = 0; i < STAR_COUNT; i++) {
         const rand = Math.random();
         let type: 'star' | 'nebula' | 'galaxy';
         
-        if (rand < 0.85) type = 'star';
-        else if (rand < 0.97) type = 'nebula';
+        // More stars, fewer nebulae and galaxies for better visibility
+        if (rand < 0.92) type = 'star';
+        else if (rand < 0.98) type = 'nebula';
         else type = 'galaxy';
         
         stars.push({
@@ -140,18 +143,32 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         s.opacity = Math.sin(Date.now() * s.twinkle) * 0.3 + 0.7;
         
         if (s.type === 'star') {
-          const size = s.z * 1.5;
-          ctx.fillStyle = s.color.replace('0.9)', `${s.opacity})`);
+          const size = Math.max(0.5, s.z * 2); // Larger, more visible stars
+          ctx.fillStyle = s.color.replace(/0\.[89]\)/, `${s.opacity})`);
           ctx.beginPath();
           ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
           ctx.fill();
           
-          // Distant stars twinkling
-          if (Math.random() < 0.008) {
-            ctx.shadowBlur = 8;
+          // Enhanced star glow effect
+          if (s.z > 0.6 || Math.random() < 0.015) {
+            ctx.shadowBlur = 12 * s.z;
             ctx.shadowColor = s.color;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, size * 1.5, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
+          }
+          
+          // Bright star cross effect for larger stars
+          if (s.z > 0.7) {
+            ctx.strokeStyle = s.color.replace(/0\.[89]\)/, `${s.opacity * 0.6})`);
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(s.x - size * 3, s.y);
+            ctx.lineTo(s.x + size * 3, s.y);
+            ctx.moveTo(s.x, s.y - size * 3);
+            ctx.lineTo(s.x, s.y + size * 3);
+            ctx.stroke();
           }
         } else if (s.type === 'nebula') {
           const size = s.z * 8 + 5;
