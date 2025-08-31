@@ -37,7 +37,7 @@ import {
   BarChart3,
 } from "lucide-react";
 
-const AVATAR = "https://cdn.discordapp.com/avatars/1202232935311495209/3f869172df5beed3db2d446251ee56ec.png?size=4096&ignore=true";
+const AVATAR = "https://cdn.discordapp.com/avatars/1202232935311495209/cb377b6dcfb0791f023c002c6627581e.png?size=4096";
 const GITHUB = "https://github.com/ToddyTheNoobDud/Kenium-Music";
 const SETUP_VIDEO = "https://www.youtube.com/watch?v=7aIjwQCEox8";
 const INVITE_URL = "https://discord.com/oauth2/authorize?client_id=1202232935311495209";
