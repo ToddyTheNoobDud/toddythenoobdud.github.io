@@ -2,6 +2,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Starfield from "@/components/Starfield";
+import HeartbeatEffect from "@/components/HeartbeatEffect";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -106,6 +107,9 @@ const Index = () => {
 
       {/* Starfield background */}
       <Starfield />
+      
+      {/* Heartbeat effect */}
+      <HeartbeatEffect />
 
       {/* HERO */}
       <header className="relative">
