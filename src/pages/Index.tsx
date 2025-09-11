@@ -165,7 +165,7 @@ const Index = () => {
       <div className="section-separator h-px"></div>
 
       {/* WHY SECTION */}
-      <section className="relative cosmic-glow">
+      <section className="relative">
         <div className="container py-16 md:py-20">
           <SectionHeading
             title="Why Kenium Slays in 2025?"
@@ -417,18 +417,18 @@ const Index = () => {
           />
 
           <div className="mt-8 text-center space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="flex justify-center items-center gap-12 md:gap-16">
               <div className="text-center">
-                <div className="text-3xl font-bold text-brand mb-2">24/7</div>
-                <div className="text-muted-foreground">Uptime guarantee</div>
+                <div className="text-4xl md:text-5xl font-bold text-brand mb-2">24/7</div>
+                <div className="text-sm text-muted-foreground">Uptime guarantee</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-brand-2 mb-2">0$</div>
-                <div className="text-muted-foreground">Forever free</div>
+                <div className="text-4xl md:text-5xl font-bold text-brand-2 mb-2">0$</div>
+                <div className="text-sm text-muted-foreground">Forever free</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-brand mb-2">50+</div>
-                <div className="text-muted-foreground">Commands available</div>
+                <div className="text-4xl md:text-5xl font-bold text-brand mb-2">50+</div>
+                <div className="text-sm text-muted-foreground">Commands available</div>
               </div>
             </div>
 

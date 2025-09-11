@@ -52,7 +52,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     const brand2 =
       rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%";
 
-    const STAR_COUNT = Math.min(1200, Math.floor((width * height) / 2000));
+    const STAR_COUNT = Math.min(400, Math.floor((width * height) / 8000));
 
     const initStars = () => {
       const stars: Star[] = [];
@@ -72,8 +72,8 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         const rand = Math.random();
         let type: "star" | "nebula" | "galaxy";
 
-        if (rand < 0.92) type = "star";
-        else if (rand < 0.98) type = "nebula";
+        if (rand < 0.96) type = "star";
+        else if (rand < 0.99) type = "nebula";
         else type = "galaxy";
 
         // Ultra-low base opacity for subtle cosmic background
@@ -107,66 +107,19 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle deep space background
+      // Simple cosmic background - reduced complexity
       const deepSpaceGrad = ctx.createRadialGradient(
         width * 0.5,
         height * 0.5,
         0,
         width * 0.5,
         height * 0.5,
-        Math.max(width, height) * 0.8
+        Math.max(width, height) * 0.6
       );
-      deepSpaceGrad.addColorStop(0, "hsl(230 25% 2% / 0.15)");
-      deepSpaceGrad.addColorStop(0.4, "hsl(240 20% 4% / 0.1)");
-      deepSpaceGrad.addColorStop(0.8, "hsl(250 15% 2% / 0.05)");
+      deepSpaceGrad.addColorStop(0, "hsl(230 25% 2% / 0.08)");
+      deepSpaceGrad.addColorStop(0.8, "hsl(240 20% 3% / 0.04)");
       deepSpaceGrad.addColorStop(1, "transparent");
       ctx.fillStyle = deepSpaceGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Subtle galaxy core
-      const coreGrad = ctx.createRadialGradient(
-        width * 0.5,
-        height * 0.4,
-        0,
-        width * 0.5,
-        height * 0.4,
-        Math.max(width, height) * 0.4
-      );
-      coreGrad.addColorStop(0, `hsl(${brand} / 0.08)`);
-      coreGrad.addColorStop(0.2, `hsl(${brand2} / 0.06)`);
-      coreGrad.addColorStop(0.5, "hsl(270 60% 30% / 0.04)");
-      coreGrad.addColorStop(0.8, "hsl(300 40% 20% / 0.02)");
-      coreGrad.addColorStop(1, "transparent");
-      ctx.fillStyle = coreGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Nebulas
-      const nebulaGrad1 = ctx.createRadialGradient(
-        width * 0.15,
-        height * 0.8,
-        0,
-        width * 0.15,
-        height * 0.8,
-        Math.max(width, height) * 0.3
-      );
-      nebulaGrad1.addColorStop(0, "hsl(300 90% 70% / 0.12)");
-      nebulaGrad1.addColorStop(0.6, "hsl(210 80% 60% / 0.08)");
-      nebulaGrad1.addColorStop(1, "transparent");
-      ctx.fillStyle = nebulaGrad1;
-      ctx.fillRect(0, 0, width, height);
-
-      const nebulaGrad2 = ctx.createRadialGradient(
-        width * 0.8,
-        height * 0.2,
-        0,
-        width * 0.8,
-        height * 0.2,
-        Math.max(width, height) * 0.25
-      );
-      nebulaGrad2.addColorStop(0, "hsl(180 70% 80% / 0.1)");
-      nebulaGrad2.addColorStop(0.5, "hsl(200 60% 70% / 0.06)");
-      nebulaGrad2.addColorStop(1, "transparent");
-      ctx.fillStyle = nebulaGrad2;
       ctx.fillRect(0, 0, width, height);
 
       for (const s of starsRef.current) {
@@ -184,65 +137,37 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
           ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
           ctx.fill();
 
-          // Subtle glow (only if z large or rare chance) but respect low alpha
-          if (s.z > 0.6 || Math.random() < 0.01) {
-            ctx.shadowBlur = 8 * s.z;
-            ctx.shadowColor = withAlpha(s.color, Math.min(0.25, s.opacity * 2));
+          // Simplified glow for performance
+          if (s.z > 0.7 && Math.random() < 0.005) {
+            ctx.shadowBlur = 4;
+            ctx.shadowColor = withAlpha(s.color, Math.min(0.15, s.opacity));
             ctx.beginPath();
-            ctx.arc(s.x, s.y, size * 1.5, 0, Math.PI * 2);
+            ctx.arc(s.x, s.y, size * 1.2, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
           }
-
-          // Faint cross for larger stars
-          if (s.z > 0.7) {
-            ctx.globalAlpha = Math.min(0.7, s.opacity * 0.6);
-            ctx.strokeStyle = s.color;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(s.x - size * 3, s.y);
-            ctx.lineTo(s.x + size * 3, s.y);
-            ctx.moveTo(s.x, s.y - size * 3);
-            ctx.lineTo(s.x, s.y + size * 3);
-            ctx.stroke();
-          }
           ctx.restore();
         } else if (s.type === "nebula") {
-          const size = s.z * 8 + 5;
-          const nebulaGrad = ctx.createRadialGradient(
-            s.x,
-            s.y,
-            0,
-            s.x,
-            s.y,
-            size
-          );
-          nebulaGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.35));
-          nebulaGrad.addColorStop(0.6, withAlpha(s.color, s.opacity * 0.12));
+          // Simplified nebula
+          const size = s.z * 6 + 3;
+          const nebulaGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, size);
+          nebulaGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.2));
           nebulaGrad.addColorStop(1, "transparent");
           ctx.fillStyle = nebulaGrad;
           ctx.fillRect(s.x - size, s.y - size, size * 2, size * 2);
         } else if (s.type === "galaxy") {
-          const size = s.z * 12 + 8;
+          // Simplified galaxy
+          const size = s.z * 8 + 4;
           ctx.save();
           ctx.translate(s.x, s.y);
-          ctx.rotate(Date.now() * 0.00001);
-
+          
           const galaxyGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
-          galaxyGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.6));
-          galaxyGrad.addColorStop(0.3, withAlpha(s.color, s.opacity * 0.18));
+          galaxyGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.3));
           galaxyGrad.addColorStop(1, "transparent");
           ctx.fillStyle = galaxyGrad;
-
-          for (let i = 0; i < 3; i++) {
-            ctx.save();
-            ctx.rotate((i * Math.PI * 2) / 3);
-            ctx.scale(1, 0.3);
-            ctx.beginPath();
-            ctx.arc(0, 0, size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          }
+          ctx.beginPath();
+          ctx.arc(0, 0, size, 0, Math.PI * 2);
+          ctx.fill();
           ctx.restore();
         }
 

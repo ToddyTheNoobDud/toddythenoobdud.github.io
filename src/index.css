@@ -130,5 +130,4 @@ All colors MUST be HSL.
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .section-separator { @apply border-t border-border/20 bg-gradient-to-r from-transparent via-border/40 to-transparent; }
   .glass-card { @apply bg-card/30 backdrop-blur-md border border-border/20; }
-  .cosmic-glow { background: var(--gradient-soft); }
 }
