@@ -76,13 +76,13 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         else if (rand < 0.98) type = "nebula";
         else type = "galaxy";
 
-        // Much lower base opacity to make the scene darker overall
+        // Ultra-low base opacity for subtle cosmic background
         const baseOpacity =
           (type === "star"
-            ? Math.random() * 0.12 + 0.02 // stars: ~0.02 - 0.14
+            ? Math.random() * 0.05 + 0.01 // stars: ~0.01 - 0.06
             : type === "nebula"
-            ? Math.random() * 0.06 + 0.01 // nebula: ~0.01 - 0.07
-            : Math.random() * 0.05 + 0.01) // galaxy: ~0.01 - 0.06
+            ? Math.random() * 0.03 + 0.005 // nebula: ~0.005 - 0.035
+            : Math.random() * 0.02 + 0.005) // galaxy: ~0.005 - 0.025
         ;
 
         stars.push({
@@ -107,7 +107,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Deep space background with layered cosmic effects
+      // Subtle deep space background
       const deepSpaceGrad = ctx.createRadialGradient(
         width * 0.5,
         height * 0.5,
@@ -116,14 +116,14 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         height * 0.5,
         Math.max(width, height) * 0.8
       );
-      deepSpaceGrad.addColorStop(0, "hsl(240 30% 5% / 0.3)");
-      deepSpaceGrad.addColorStop(0.4, "hsl(260 40% 8% / 0.2)");
-      deepSpaceGrad.addColorStop(0.8, "hsl(280 20% 3% / 0.1)");
+      deepSpaceGrad.addColorStop(0, "hsl(230 25% 2% / 0.15)");
+      deepSpaceGrad.addColorStop(0.4, "hsl(240 20% 4% / 0.1)");
+      deepSpaceGrad.addColorStop(0.8, "hsl(250 15% 2% / 0.05)");
       deepSpaceGrad.addColorStop(1, "transparent");
       ctx.fillStyle = deepSpaceGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Galaxy core
+      // Subtle galaxy core
       const coreGrad = ctx.createRadialGradient(
         width * 0.5,
         height * 0.4,
@@ -132,10 +132,10 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         height * 0.4,
         Math.max(width, height) * 0.4
       );
-      coreGrad.addColorStop(0, `hsl(${brand} / 0.25)`);
-      coreGrad.addColorStop(0.2, `hsl(${brand2} / 0.18)`);
-      coreGrad.addColorStop(0.5, "hsl(270 60% 30% / 0.12)");
-      coreGrad.addColorStop(0.8, "hsl(300 40% 20% / 0.06)");
+      coreGrad.addColorStop(0, `hsl(${brand} / 0.08)`);
+      coreGrad.addColorStop(0.2, `hsl(${brand2} / 0.06)`);
+      coreGrad.addColorStop(0.5, "hsl(270 60% 30% / 0.04)");
+      coreGrad.addColorStop(0.8, "hsl(300 40% 20% / 0.02)");
       coreGrad.addColorStop(1, "transparent");
       ctx.fillStyle = coreGrad;
       ctx.fillRect(0, 0, width, height);

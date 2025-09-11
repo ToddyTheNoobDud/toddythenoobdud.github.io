@@ -87,7 +87,7 @@ const Index = () => {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black">
+    <main className="relative min-h-screen overflow-hidden bg-background">
       <Helmet>
         <title>Kenium — Free Discord Music Bot (Open Source)</title>
         <meta
@@ -161,45 +161,51 @@ const Index = () => {
         </div>
       </header>
 
+      {/* MODERN SEPARATOR */}
+      <div className="section-separator h-px"></div>
+
       {/* WHY SECTION */}
-      <section className="relative">
-        <div className="container py-10 md:py-14">
+      <section className="relative cosmic-glow">
+        <div className="container py-16 md:py-20">
           <SectionHeading
             title="Why Kenium Slays in 2025?"
             subtitle="While other bots went pay-to-play or got shut down, Kenium stays free, reliable, and community-driven."
           />
 
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <Card className="animate-enter bg-card/50 backdrop-blur">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className="text-brand" /> Free Vibes Only
-                </CardTitle>
-                <CardDescription>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <Card className="animate-enter glass-card hover:bg-card/40 transition-all duration-300 group">
+              <CardHeader className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand/20 to-brand-2/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Zap className="w-6 h-6 text-brand" />
+                </div>
+                <CardTitle className="text-xl">Free Vibes Only</CardTitle>
+                <CardDescription className="text-base leading-relaxed">
                   Play from YouTube, Spotify, SoundCloud, Vimeo or local files —
                   zero cost and no vote gates. Unlike MEE6, Hydra, or other bots that went premium, Kenium stays completely free.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter bg-card/50 backdrop-blur">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ShieldCheck className="text-brand-2" /> Always Ready
-                </CardTitle>
-                <CardDescription>
+            <Card className="animate-enter glass-card hover:bg-card/40 transition-all duration-300 group">
+              <CardHeader className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-2/20 to-brand/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="w-6 h-6 text-brand-2" />
+                </div>
+                <CardTitle className="text-xl">Always Ready</CardTitle>
+                <CardDescription className="text-base leading-relaxed">
                   24/7 jams on Galact Hosting. Stable and reliable for gaming or chilling. 
                   No more "bot offline" disappointments during your epic gaming sessions.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="animate-enter bg-card/50 backdrop-blur">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings2 className="text-brand" /> Easy as /play
-                </CardTitle>
-                <CardDescription>
+            <Card className="animate-enter glass-card hover:bg-card/40 transition-all duration-300 group">
+              <CardHeader className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand/20 to-brand-2/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Settings2 className="w-6 h-6 text-brand" />
+                </div>
+                <CardTitle className="text-xl">Easy as /play</CardTitle>
+                <CardDescription className="text-base leading-relaxed">
                   One command to start. Smart autocomplete to find tracks fast.
                   No complicated setup, no premium features locked behind paywalls.
                 </CardDescription>
@@ -209,9 +215,12 @@ const Index = () => {
         </div>
       </section>
 
+      {/* MODERN SEPARATOR */}
+      <div className="section-separator h-px"></div>
+
       {/* FEATURES SECTION */}
       <section className="relative">
-        <div className="container py-10 md:py-14">
+        <div className="container py-16 md:py-20">
           <SectionHeading
             title="Features that Actually Matter"
             subtitle="Everything you need for the perfect Discord music experience — all included, all free."
