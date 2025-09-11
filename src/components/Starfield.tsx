@@ -1,156 +1,205 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
 
 interface Star {
   x: number;
   y: number;
   z: number;
-  type: "star" | "nebula" | "galaxy";
+  vx: number;
+  vy: number;
   color: string;
-  baseOpacity: number; // new: base opacity (very low)
-  opacity: number;
-  twinkle: number;
+  baseOpacity: number;
+  twinkleSpeed: number;
+  twinklePhase: number;
+  size: number;
 }
 
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const withAlpha = (color: string, alpha: number) => {
-  const a = Math.max(0, Math.min(1, alpha)).toFixed(3);
-  if (color.includes("/")) {
-    return color.replace(/\/\s*[\d.]+\)/, `/ ${a})`);
-  }
-  return color.replace(/\)$/, ` / ${a})`);
-};
+const MAX_STARS = 250;
 
 const Starfield: React.FC<{ className?: string }> = ({ className }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const animationRef = useRef<number | null>(null);
+  const animationFrameRef = useRef<number>(0);
   const starsRef = useRef<Star[]>([]);
+  const lastFrameTimeRef = useRef<number>(Date.now());
 
-  useEffect(() => {
+  // Memoized color palette - subtle colors for eye comfort
+  const colorPalette = useMemo(() => {
+    if (typeof window === "undefined") return [];
+
+    const root = getComputedStyle(document.documentElement);
+    const brand = root.getPropertyValue("--brand").trim() || "268 45% 50%";
+    const brand2 = root.getPropertyValue("--brand-2").trim() || "320 43% 46%";
+
+    return [
+      `hsl(${brand} / 0.7)`,
+      `hsl(${brand2} / 0.6)`,
+      "hsl(210 40% 55% / 0.6)",
+      "hsl(270 35% 50% / 0.5)",
+      "hsl(300 30% 45% / 0.5)",
+      "hsl(180 35% 50% / 0.6)",
+      "hsl(0 0% 70% / 0.4)",
+      "hsl(240 30% 40% / 0.5)",
+    ];
+  }, []);
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = useMemo(() => {
+    return typeof window !== "undefined" &&
+           window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  // Create a single star
+  const createStar = useCallback((width: number, height: number): Star => {
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      z: Math.random() * 0.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.1,
+      color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
+      baseOpacity: Math.random() * 0.4 + 0.3,
+      twinkleSpeed: Math.random() * 0.003 + 0.001,
+      twinklePhase: Math.random() * Math.PI * 2,
+      size: Math.random() * 1.2 + 0.3,
+    };
+  }, [colorPalette]);
+
+  // Initialize star field
+  const initStars = useCallback((width: number, height: number) => {
+    if (width === 0 || height === 0) return;
+
+    const area = width * height;
+    const starCount = Math.min(MAX_STARS, Math.floor(area / 8000));
+
+    starsRef.current = [];
+    for (let i = 0; i < starCount; i++) {
+      starsRef.current.push(createStar(width, height));
+    }
+  }, [createStar]);
+
+  // Main render loop
+  const render = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || prefersReducedMotion) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
+    const width = canvas.width;
+    const height = canvas.height;
+    const currentTime = Date.now();
+    const deltaTime = (currentTime - lastFrameTimeRef.current) / 1000;
+    lastFrameTimeRef.current = currentTime;
 
-    const onResize = () => {
-      width = canvas.offsetWidth;
-      height = canvas.offsetHeight;
-      canvas.width = width;
-      canvas.height = height;
-      initStars();
-    };
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
 
-    // Resolve brand tokens once to avoid Canvas not parsing CSS var() in gradients
-    const rootStyle = getComputedStyle(document.documentElement);
-    const brand = rootStyle.getPropertyValue("--brand").trim() || "268 85% 70%";
-    const brand2 =
-      rootStyle.getPropertyValue("--brand-2").trim() || "320 83% 66%";
+    // Add subtle background
+    ctx.fillStyle = "rgba(10, 10, 20, 0.1)";
+    ctx.fillRect(0, 0, width, height);
 
-    const STAR_COUNT = Math.min(400, Math.floor((width * height) / 8000));
+    // Draw stars
+    const stars = starsRef.current;
 
-    const initStars = () => {
-      const stars: Star[] = [];
-      const colors = [
-        `hsl(${brand} / 0.9)`,
-        `hsl(${brand2} / 0.8)`,
-        "hsl(210 100% 80%)", // Blue
-        "hsl(270 100% 85%)", // Purple
-        "hsl(300 80% 80%)", // Pink
-        "hsl(60 100% 90%)", // Yellow
-        "hsl(0 0% 95%)", // White
-        "hsl(180 80% 85%)", // Cyan
-        "hsl(30 100% 85%)", // Orange
-      ];
+    for (let i = stars.length - 1; i >= 0; i--) {
+      const star = stars[i];
 
-      for (let i = 0; i < STAR_COUNT; i++) {
-        // Only stars for minimal performance
-        const type: "star" = "star";
+      // Update position
+      star.x += star.vx * star.z * 60 * deltaTime;
+      star.y += star.vy * star.z * 60 * deltaTime;
 
-        // Simple opacity for stars only
-        const baseOpacity = Math.random() * 0.06 + 0.02; // ~0.02 - 0.08
+      // Wrap around edges
+      if (star.x < -10) star.x = width + 10;
+      if (star.x > width + 10) star.x = -10;
+      if (star.y < -10) star.y = height + 10;
+      if (star.y > height + 10) star.y = -10;
 
-        stars.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          z: Math.random() * 0.8 + 0.2,
-          type,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          baseOpacity,
-          opacity: baseOpacity,
-          twinkle: Math.random() * 0.008 + 0.002, // smaller twinkle amplitude
-        });
-      }
-      starsRef.current = stars;
-    };
+      // Calculate twinkle
+      const twinkle = Math.sin(currentTime * star.twinkleSpeed + star.twinklePhase) * 0.3 + 0.7;
+      const opacity = star.baseOpacity * twinkle;
 
-    initStars();
+      // Draw star
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.fillStyle = star.color;
 
-    window.addEventListener("resize", onResize);
+      const size = star.size * (0.8 + star.z * 0.4);
 
-    const draw = () => {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
+      // Main star
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, size, 0, Math.PI * 2);
+      ctx.fill();
 
-      // Minimal background - no heavy gradients
-      ctx.fillStyle = "hsl(230 25% 2% / 0.02)";
-      ctx.fillRect(0, 0, width, height);
-
-      for (const s of starsRef.current) {
-        // Update twinkling based on baseOpacity (keeps overall low brightness)
-        const time = Date.now();
-        s.opacity =
-          Math.max(0.01, s.baseOpacity + Math.sin(time * s.twinkle) * s.baseOpacity * 0.6);
-
-        // Simple star rendering only
-        if (s.type === "star") {
-          const size = Math.max(0.5, s.z * 1.5);
-          ctx.save();
-          ctx.globalAlpha = s.opacity;
-          ctx.fillStyle = s.color;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-
-        // Minimal drift
-        s.x += 0.02 + s.z * 0.05;
-
-        if (s.x > width + 20) {
-          s.x = -20;
-          s.y = Math.random() * height;
-          s.z = Math.random() * 0.8 + 0.2;
-        }
+      // Glow effect (only for brighter stars)
+      if (opacity > 0.3 && size > 0.5) {
+        ctx.globalAlpha = opacity * 0.2;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, size * 3, 0, Math.PI * 2);
+        ctx.fill();
       }
 
-      animationRef.current = requestAnimationFrame(draw);
-    };
+      // Cross effect for larger, brighter stars
+      if (size > 1 && opacity > 0.35) {
+        ctx.globalAlpha = opacity * 0.5;
+        ctx.strokeStyle = star.color;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(star.x - size * 2.5, star.y);
+        ctx.lineTo(star.x + size * 2.5, star.y);
+        ctx.moveTo(star.x, star.y - size * 2.5);
+        ctx.lineTo(star.x, star.y + size * 2.5);
+        ctx.stroke();
+      }
 
-    if (!prefersReducedMotion()) {
-      draw();
+      ctx.restore();
     }
 
-    return () => {
-      window.removeEventListener("resize", onResize);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    // Continue animation
+    animationFrameRef.current = requestAnimationFrame(render);
+  }, [prefersReducedMotion]);
+
+  // Setup and cleanup
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Set canvas size
+    const setupCanvas = () => {
+      const width = canvas.offsetWidth;
+      const height = canvas.offsetHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      // Initialize stars
+      initStars(width, height);
     };
-  }, []);
+
+    setupCanvas();
+
+    // Start render loop
+    if (!prefersReducedMotion) {
+      render();
+    }
+
+    // Handle resize
+    const handleResize = () => {
+      setupCanvas();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationFrameRef.current);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [initStars, render, prefersReducedMotion]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={
-        "fixed inset-0 z-0 h-full w-full pointer-events-none " +
-        (className ?? "")
-      }
+      className={`fixed inset-0 z-0 h-full w-full pointer-events-none ${className ?? ""}`}
       aria-hidden="true"
-      style={{ background: "transparent" }}
+      style={{
+        background: "transparent"
+      }}
     />
   );
 };
