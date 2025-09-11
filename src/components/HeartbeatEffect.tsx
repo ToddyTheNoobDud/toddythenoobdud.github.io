@@ -27,52 +27,66 @@ const HeartbeatEffect: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      const time = Date.now() * 0.002; // Slow heartbeat rhythm
+      const time = Date.now() * 0.0003; // Much slower timing
 
-      // Heartbeat pattern: quick double pulse, then pause
-      const heartbeatCycle = time % 4; // 4 second cycle
+      // Very slow breathing cycle - 16 seconds total
+      const breathCycle = time % 16;
       let intensity: number;
 
-      if (heartbeatCycle < 0.2) {
-        // First beat
-        intensity = Math.sin(heartbeatCycle * Math.PI * 5) * 0.8 + 0.2;
-      } else if (heartbeatCycle < 0.6) {
-        // Brief pause
-        intensity = 0.1;
-      } else if (heartbeatCycle < 0.8) {
-        // Second beat
-        intensity = Math.sin((heartbeatCycle - 0.6) * Math.PI * 5) * 0.6 + 0.15;
+      if (breathCycle < 4) {
+        // Fade in to purple (4 seconds)
+        intensity = breathCycle / 4; // 0 to 1
+      } else if (breathCycle < 8) {
+        // Stay purple (4 seconds)
+        intensity = 1;
+      } else if (breathCycle < 12) {
+        // Fade out to dark (4 seconds)
+        intensity = 1 - (breathCycle - 8) / 4; // 1 to 0
       } else {
-        // Long pause
-        intensity = 0.05 + Math.sin(heartbeatCycle * Math.PI * 0.5) * 0.05;
+        // Stay dark (4 seconds)
+        intensity = 0;
       }
 
-      // Center pulsing gradient
-      const centerX = width * 0.5;
-      const centerY = height * 0.4;
-      const maxRadius = Math.max(width, height) * 0.6;
+      // Smooth the transitions with easing
+      intensity = intensity * intensity * (3 - 2 * intensity);
 
-      const gradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        0,
-        centerX,
-        centerY,
-        maxRadius
-      );
+      // Multiple gradients for better spread
+      const gradients = [
+        { x: width * 0.2, y: height * 0.3, radius: Math.max(width, height) * 0.4 },
+        { x: width * 0.8, y: height * 0.7, radius: Math.max(width, height) * 0.5 },
+        { x: width * 0.5, y: height * 0.1, radius: Math.max(width, height) * 0.3 },
+        { x: width * 0.1, y: height * 0.8, radius: Math.max(width, height) * 0.35 },
+        { x: width * 0.9, y: height * 0.2, radius: Math.max(width, height) * 0.3 }
+      ];
 
-      // Purple heartbeat colors
-      const purpleIntensity = intensity * 0.3;
-      const darkIntensity = intensity * 0.15;
+      // Draw multiple overlapping gradients for better coverage
+      gradients.forEach((grad, index) => {
+        const gradient = ctx.createRadialGradient(
+          grad.x,
+          grad.y,
+          0,
+          grad.x,
+          grad.y,
+          grad.radius
+        );
 
-      gradient.addColorStop(0, `hsl(280 70% 60% / ${purpleIntensity})`);
-      gradient.addColorStop(0.3, `hsl(290 60% 45% / ${purpleIntensity * 0.7})`);
-      gradient.addColorStop(0.6, `hsl(260 40% 25% / ${darkIntensity})`);
-      gradient.addColorStop(0.8, `hsl(240 30% 15% / ${darkIntensity * 0.5})`);
-      gradient.addColorStop(1, "transparent");
+        // Very subtle purple breathing effect
+        const purpleIntensity = intensity * 0.08; // Much more subtle
+        const darkIntensity = intensity * 0.04;
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+        gradient.addColorStop(0, `hsl(${280 + index * 10} 50% 45% / ${purpleIntensity})`);
+        gradient.addColorStop(0.3, `hsl(${290 + index * 8} 45% 35% / ${purpleIntensity * 0.7})`);
+        gradient.addColorStop(0.6, `hsl(${270 + index * 5} 35% 25% / ${darkIntensity})`);
+        gradient.addColorStop(0.8, `hsl(${260 + index * 3} 25% 18% / ${darkIntensity * 0.5})`);
+        gradient.addColorStop(1, "transparent");
+
+        ctx.globalCompositeOperation = 'multiply'; // Blend mode for subtle background effect
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+      });
+
+      // Reset blend mode
+      ctx.globalCompositeOperation = 'source-over';
 
       animationRef.current = requestAnimationFrame(draw);
     };
