@@ -69,21 +69,11 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       ];
 
       for (let i = 0; i < STAR_COUNT; i++) {
-        const rand = Math.random();
-        let type: "star" | "nebula" | "galaxy";
+        // Only stars for minimal performance
+        const type: "star" = "star";
 
-        if (rand < 0.96) type = "star";
-        else if (rand < 0.99) type = "nebula";
-        else type = "galaxy";
-
-        // Ultra-low base opacity for subtle cosmic background
-        const baseOpacity =
-          (type === "star"
-            ? Math.random() * 0.05 + 0.01 // stars: ~0.01 - 0.06
-            : type === "nebula"
-            ? Math.random() * 0.03 + 0.005 // nebula: ~0.005 - 0.035
-            : Math.random() * 0.02 + 0.005) // galaxy: ~0.005 - 0.025
-        ;
+        // Simple opacity for stars only
+        const baseOpacity = Math.random() * 0.06 + 0.02; // ~0.02 - 0.08
 
         stars.push({
           x: Math.random() * width,
@@ -107,19 +97,8 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
-      // Simple cosmic background - reduced complexity
-      const deepSpaceGrad = ctx.createRadialGradient(
-        width * 0.5,
-        height * 0.5,
-        0,
-        width * 0.5,
-        height * 0.5,
-        Math.max(width, height) * 0.6
-      );
-      deepSpaceGrad.addColorStop(0, "hsl(230 25% 2% / 0.08)");
-      deepSpaceGrad.addColorStop(0.8, "hsl(240 20% 3% / 0.04)");
-      deepSpaceGrad.addColorStop(1, "transparent");
-      ctx.fillStyle = deepSpaceGrad;
+      // Minimal background - no heavy gradients
+      ctx.fillStyle = "hsl(230 25% 2% / 0.02)";
       ctx.fillRect(0, 0, width, height);
 
       for (const s of starsRef.current) {
@@ -128,52 +107,20 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
         s.opacity =
           Math.max(0.01, s.baseOpacity + Math.sin(time * s.twinkle) * s.baseOpacity * 0.6);
 
+        // Simple star rendering only
         if (s.type === "star") {
-          const size = Math.max(0.5, s.z * 2); // star size
+          const size = Math.max(0.5, s.z * 1.5);
           ctx.save();
           ctx.globalAlpha = s.opacity;
           ctx.fillStyle = s.color;
           ctx.beginPath();
           ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
           ctx.fill();
-
-          // Simplified glow for performance
-          if (s.z > 0.7 && Math.random() < 0.005) {
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = withAlpha(s.color, Math.min(0.15, s.opacity));
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, size * 1.2, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
-          }
-          ctx.restore();
-        } else if (s.type === "nebula") {
-          // Simplified nebula
-          const size = s.z * 6 + 3;
-          const nebulaGrad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, size);
-          nebulaGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.2));
-          nebulaGrad.addColorStop(1, "transparent");
-          ctx.fillStyle = nebulaGrad;
-          ctx.fillRect(s.x - size, s.y - size, size * 2, size * 2);
-        } else if (s.type === "galaxy") {
-          // Simplified galaxy
-          const size = s.z * 8 + 4;
-          ctx.save();
-          ctx.translate(s.x, s.y);
-          
-          const galaxyGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size);
-          galaxyGrad.addColorStop(0, withAlpha(s.color, s.opacity * 0.3));
-          galaxyGrad.addColorStop(1, "transparent");
-          ctx.fillStyle = galaxyGrad;
-          ctx.beginPath();
-          ctx.arc(0, 0, size, 0, Math.PI * 2);
-          ctx.fill();
           ctx.restore();
         }
 
-        // Slow drift
-        s.x += 0.05 + s.z * 0.1;
-        s.y += Math.sin(Date.now() * 0.00008 + s.x * 0.008) * 0.05;
+        // Minimal drift
+        s.x += 0.02 + s.z * 0.05;
 
         if (s.x > width + 20) {
           s.x = -20;
