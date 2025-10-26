@@ -38,7 +38,7 @@ import {
   BarChart3,
 } from "lucide-react";
 
-const AVATAR = "https://raw.githubusercontent.com/ToddyTheNoobDud/toddythenoobdud.github.io/b3c9e14cc03798aadb3224303251bc730718f9dc/nopoe.png";
+const AVATAR = "https://raw.githubusercontent.com/ToddyTheNoobDud/toddythenoobdud.github.io/refs/heads/main/f75c5308-740c-45a4-b7e6-0910f52da641-removebg-preview.png";
 const GITHUB = "https://github.com/ToddyTheNoobDud/Kenium-Music";
 const SETUP_VIDEO = "https://www.youtube.com/watch?v=7aIjwQCEox8";
 const INVITE_URL = "https://discord.com/oauth2/authorize?client_id=1202232935311495209";
